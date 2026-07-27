@@ -33,11 +33,15 @@ export function Header() {
     <>
       {/* 1. Announcement Bar */}
       <div className="bg-[#C4A35A] text-white text-xs font-light py-2.5 px-6 flex justify-between items-center tracking-wide">
-        <div className="hidden md:block w-24"></div>
-        <div className="text-center flex-1">
+        <div className="flex items-center gap-2 text-xs">
+          <a href="/preview/shatta-homepage/Login" className="hover:text-white/80 font-medium transition-colors">Login</a>
+          <span className="opacity-60">|</span>
+          <a href="/preview/shatta-homepage/Register" className="hover:text-white/80 font-medium transition-colors">Register</a>
+        </div>
+        <div className="text-center flex-1 hidden sm:block">
           Free Shipping on Orders Over EGP 3,000 &middot; 25+ Branches Across Egypt &middot; Est. 1988
         </div>
-        <div onClick={toggleLanguage} className="w-24 text-end cursor-pointer hover:text-white/80 transition-colors">
+        <div onClick={toggleLanguage} className="cursor-pointer hover:text-white/80 transition-colors">
           EN | عربي
         </div>
       </div>
@@ -238,7 +242,7 @@ export function Header() {
             </ul>
           </div>
 
-          <div className="shrink-0 p-6 border-t border-gray-100 bg-gray-50 flex flex-col gap-4">
+          <div className="shrink-0 p-6 border-t border-gray-100 bg-gray-50 flex flex-col gap-3">
             <button 
               type="button" 
               className="w-full flex items-center justify-center gap-2 bg-white border border-gray-200 rounded-xl py-3 text-sm font-medium text-[#1A1A1A]"
@@ -249,9 +253,16 @@ export function Header() {
             >
               <Search className="w-4 h-4" /> Search Products
             </button>
-            <div className="flex items-center justify-center gap-6 mt-2">
-              <a href="/preview/shatta-homepage/Account" className="text-gray-500 hover:text-[#1A1A1A]"><User className="w-5 h-5" /></a>
-              <button type="button" className="text-gray-500 hover:text-[#1A1A1A]"><Heart className="w-5 h-5" /></button>
+            <div className="flex items-center justify-between pt-2 text-xs border-t border-gray-200/60">
+              <div className="flex items-center gap-2">
+                <a href="/preview/shatta-homepage/Login" className="font-semibold text-[#1A1A1A] hover:text-[#C4A35A]">Login</a>
+                <span className="text-gray-300">|</span>
+                <a href="/preview/shatta-homepage/Register" className="font-semibold text-[#1A1A1A] hover:text-[#C4A35A]">Register</a>
+              </div>
+              <div className="flex items-center gap-4">
+                <a href="/preview/shatta-homepage/Account" className="text-gray-500 hover:text-[#1A1A1A]"><User className="w-5 h-5" /></a>
+                <button type="button" className="text-gray-500 hover:text-[#1A1A1A]"><Heart className="w-5 h-5" /></button>
+              </div>
             </div>
           </div>
         </div>
