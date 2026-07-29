@@ -1,0 +1,308 @@
+{% comment %}
+  SHATTA Footer Section
+  Dark theme with company info, links, and newsletter signup
+{% endcomment %}
+
+{% schema %}
+{
+  "name": "Footer",
+  "settings": [
+    {
+      "type": "text",
+      "id": "company_name",
+      "label": "Company Name",
+      "default": "SHATTA"
+    },
+    {
+      "type": "richtext",
+      "id": "about_text",
+      "label": "About Text",
+      "default": "<p>Egyptian craftsmanship meeting modern luxury. Over three decades of curating the perfect home experience.</p>"
+    },
+    {
+      "type": "text",
+      "id": "newsletter_placeholder",
+      "label": "Newsletter Placeholder",
+      "default": "Enter your email address"
+    },
+    {
+      "type": "text",
+      "id": "copyright_text",
+      "label": "Copyright Text",
+      "default": "© 2025 Shatta Home. All rights reserved. Est. 1988 in Egypt."
+    }
+  ]
+}
+{% endschema %}
+
+<style>
+  .footer {
+    background-color: #1A1A1A;
+    color: white;
+    padding-top: 6rem;
+    border-top: 1px solid rgba(196, 163, 90, 0.3);
+    border-radius: 3rem 3rem 0 0;
+    margin-top: 50px;
+    position: relative;
+    z-index: 10;
+    box-shadow: 0 -20px 50px rgba(0, 0, 0, 0.1);
+  }
+  
+  .footer-content {
+    max-width: 80rem;
+    margin: 0 auto;
+    padding: 0 2rem 4rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 3rem;
+  }
+  
+  .footer-col h4 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.25rem;
+    margin-bottom: 1.5rem;
+    color: #C4A35A;
+    font-weight: 400;
+  }
+  
+  .footer-col p {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.875rem;
+    font-weight: 300;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+    padding-right: 1rem;
+  }
+  
+  .social-icons {
+    display: flex;
+    gap: 1rem;
+  }
+  
+  .social-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    transition: all 0.3s;
+    cursor: pointer;
+  }
+  
+  .social-icon:hover {
+    background-color: #C4A35A;
+    border-color: #C4A35A;
+    transform: scale(1.1);
+  }
+  
+  .footer-links {
+    list-style: none;
+  }
+  
+  .footer-links li {
+    margin-bottom: 1rem;
+  }
+  
+  .footer-links a {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.875rem;
+    font-weight: 300;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    transition: all 0.3s;
+  }
+  
+  .footer-links a:hover {
+    color: #C4A35A;
+  }
+  
+  .footer-links a::before {
+    content: '-';
+    width: 0;
+    overflow: hidden;
+    transition: all 0.3s;
+  }
+  
+  .footer-links a:hover::before {
+    width: 0.75rem;
+    margin-right: 0.5rem;
+  }
+  
+  .footer-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .footer-input {
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 2rem;
+    padding: 1rem 1.5rem;
+    color: white;
+    font-size: 0.875rem;
+    width: 100%;
+    transition: all 0.3s;
+  }
+  
+  .footer-input::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+  }
+  
+  .footer-input:focus {
+    outline: none;
+    border-color: #C4A35A;
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  .footer-btn {
+    background-color: #C4A35A;
+    color: white;
+    border: none;
+    border-radius: 2rem;
+    padding: 1rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 10px 15px -3px rgba(196, 163, 90, 0.2);
+  }
+  
+  .footer-btn:hover {
+    background-color: #D4B97A;
+    box-shadow: 0 20px 25px -5px rgba(196, 163, 90, 0.3);
+  }
+  
+  .footer-bottom {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 2rem;
+    text-align: center;
+  }
+  
+  .footer-bottom p {
+    color: #C4A35A;
+    font-size: 0.75rem;
+    font-weight: 300;
+    letter-spacing: 0.05em;
+    margin: 0;
+  }
+  
+  .company-branding {
+    margin-bottom: 1.5rem;
+  }
+  
+  .company-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.875rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.25rem;
+  }
+  
+  .company-year {
+    color: #C4A35A;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    font-weight: 500;
+  }
+  
+  @media (max-width: 767px) {
+    .footer-content {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+      padding: 0 1rem 2rem;
+    }
+    
+    .footer {
+      padding-top: 4rem;
+      margin-top: 3rem;
+    }
+  }
+</style>
+
+<footer class="footer">
+  <div class="footer-content">
+    <!-- Col 1: Brand -->
+    <div class="footer-col">
+      <div class="company-branding">
+        <h2 class="company-name">{{ section.settings.company_name }}</h2>
+        <p class="company-year">ESTD.1988</p>
+      </div>
+      <div>{{ section.settings.about_text }}</div>
+      <div class="social-icons">
+        <a href="https://instagram.com" class="social-icon" title="Instagram">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+            <rect x="2" y="2" width="20" height="20" rx="5" ry="5" fill="none" stroke="currentColor" stroke-width="2"/>
+            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" stroke="none"/>
+            <circle cx="17.5" cy="6.5" r="1.5" fill="currentColor"/>
+          </svg>
+        </a>
+        <a href="https://facebook.com" class="social-icon" title="Facebook">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M18 2h-3a6 6 0 0 0-6 6v3H7v4h2v8h4v-8h3l1-4h-4V8a2 2 0 0 1 2-2h3z" stroke="currentColor" stroke-width="2" fill="none"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- Col 2: Quick Links -->
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <ul class="footer-links">
+        <li><a href="/pages/about">About</a></li>
+        <li><a href="/collections/home-decor">Home Decor</a></li>
+        <li><a href="/collections/bed-bath">Bed & Bath</a></li>
+        <li><a href="/collections/curtains">Curtains</a></li>
+        <li><a href="/collections/beach">Beach</a></li>
+        <li><a href="/collections/bridal">Bridal</a></li>
+        <li><a href="/collections/corporate">Corporate</a></li>
+      </ul>
+    </div>
+
+    <!-- Col 3: Help & Support -->
+    <div class="footer-col">
+      <h4>Help & Support</h4>
+      <ul class="footer-links">
+        <li><a href="/pages/contact">Contact Us</a></li>
+        <li><a href="/blogs/news">Blog</a></li>
+        <li><a href="#">Track Order</a></li>
+        <li><a href="#">Returns Policy</a></li>
+        <li><a href="#">Store Finder</a></li>
+        <li><a href="#">Home Inspection</a></li>
+      </ul>
+    </div>
+
+    <!-- Col 4: Newsletter -->
+    <div class="footer-col">
+      <h4>Stay Inspired</h4>
+      <p>Subscribe to our newsletter for exclusive offers, new collection previews, and home styling tips.</p>
+      <form class="footer-form" onsubmit="handleNewsletterSubmit(event)">
+        <input 
+          type="email" 
+          placeholder="{{ section.settings.newsletter_placeholder }}" 
+          required
+          class="footer-input"
+        >
+        <button type="submit" class="footer-btn">SUBSCRIBE</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Bottom -->
+  <div class="footer-bottom">
+    <p>{{ section.settings.copyright_text }}</p>
+  </div>
+</footer>
+
+<script>
+  function handleNewsletterSubmit(e) {
+    e.preventDefault();
+    const email = e.target.querySelector('input[type="email"]').value;
+    // Add your newsletter signup logic here
+    e.target.reset();
+  }
+</script>

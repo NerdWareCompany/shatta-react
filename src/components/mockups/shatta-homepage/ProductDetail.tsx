@@ -25,7 +25,7 @@ export function ProductDetail() {
     // Mock recently viewed initialization
     const viewed = JSON.parse(localStorage.getItem('shatta_recently_viewed') || '[]');
     setRecentlyViewed(viewed);
-    
+
     // Add current product to recently viewed
     const currentProd = {
       name: 'Nile Cotton Duvet Set',
@@ -33,7 +33,7 @@ export function ProductDetail() {
       img: 'https://api.shatta.com/storage/351/CUSH1_220_L.jpg',
       category: 'BEDDING'
     };
-    
+
     if (!viewed.find((p: any) => p.name === currentProd.name)) {
       const updated = [currentProd, ...viewed].slice(0, 5);
       localStorage.setItem('shatta_recently_viewed', JSON.stringify(updated));
@@ -64,7 +64,7 @@ export function ProductDetail() {
     hidden: { opacity: 0, y: 40 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } }
   };
-  
+
   const staggerContainer = {
     hidden: { opacity: 0 },
     visible: {
@@ -145,27 +145,27 @@ export function ProductDetail() {
 
         {/* Product Section */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 mb-24">
-          
+
           {/* LEFT: Image Gallery */}
           <div className="flex flex-col space-y-4">
             <div className="aspect-[4/5] w-full rounded-[2rem] overflow-hidden bg-white shadow-xl shadow-black/5 relative group">
               <AnimatePresence mode="wait">
-                <motion.img 
+                <motion.img
                   key={activeImageIndex}
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.4 }}
-                  src={images[activeImageIndex]} 
-                  alt="Nile Cotton Duvet Set" 
+                  src={images[activeImageIndex]}
+                  alt="Nile Cotton Duvet Set"
                   className="w-full h-full object-cover transform scale-[1.01] group-hover:scale-105 transition-transform duration-[10s] ease-out"
                 />
               </AnimatePresence>
             </div>
-            
+
             <div className="grid grid-cols-4 gap-4">
               {images.map((img, idx) => (
-                <button 
+                <button
                   key={idx}
                   onClick={() => setActiveImageIndex(idx)}
                   className={`aspect-[4/5] rounded-xl overflow-hidden relative ${activeImageIndex === idx ? 'ring-2 ring-[#C4A35A] ring-offset-2 ring-offset-[#FFFFFF]' : 'hover:opacity-80 transition-opacity'} bg-white shadow-sm shadow-black/5`}
@@ -180,15 +180,15 @@ export function ProductDetail() {
           {/* RIGHT: Product Info Panel */}
           <div className="flex flex-col">
             <motion.div initial="hidden" animate="visible" variants={staggerContainer} className="flex flex-col">
-              
+
               <motion.div variants={fadeUp} className="text-[#C4A35A] text-xs font-semibold tracking-widest mb-4">
                 BEDDING &middot; NEW ARRIVAL
               </motion.div>
-              
+
               <motion.h1 variants={fadeUp} className="font-serif text-4xl md:text-5xl lg:text-6xl text-[#1A1A1A] leading-tight mb-4">
                 Nile Cotton Duvet Set
               </motion.h1>
-              
+
               <motion.div variants={fadeUp} className="flex items-center gap-x-4 mb-6">
                 <div className="flex items-center text-[#C4A35A]">
                   {[1, 2, 3, 4, 5].map((star) => (
@@ -245,39 +245,39 @@ export function ProductDetail() {
                 </div>
               </motion.div>
 
-                <motion.div variants={fadeUp} className="flex flex-col sm:flex-row gap-4 mb-10" ref={atcButtonRef}>
-                  <div className="flex items-center justify-between bg-white border border-black/10 rounded-full py-2 px-4 w-full sm:w-32 shadow-sm">
-                    <button onClick={() => setQuantity(Math.max(1, quantity - 1))} className="p-2 text-[#1A1A1A]/50 hover:text-[#1A1A1A] transition-colors">
-                      <Minus className="w-4 h-4" />
-                    </button>
-                    <span className="font-medium text-sm w-6 text-center">{quantity}</span>
-                    <button onClick={() => setQuantity(quantity + 1)} className="p-2 text-[#1A1A1A]/50 hover:text-[#1A1A1A] transition-colors">
-                      <Plus className="w-4 h-4" />
-                    </button>
-                  </div>
-                  
-                  <motion.button 
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    className="flex-1 bg-[#C4A35A] text-white py-4 rounded-full text-sm font-semibold tracking-widest shadow-xl shadow-[#C4A35A]/20 hover:bg-[#B39249] transition-colors relative overflow-hidden group"
-                  >
-                    <span className="absolute inset-0 w-full h-full bg-black/10 origin-[left] rtl:origin-[right] scale-x-0 group-hover:scale-x-100 transition-transform duration-500 ease-out rounded-full"></span>
-                    <span className="relative z-10">ADD TO CART</span>
-                  </motion.button>
-                  
-                  <motion.button 
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="w-14 h-[52px] sm:w-[52px] flex items-center justify-center rounded-full border border-black/10 bg-white hover:border-[#C4A35A] hover:text-[#C4A35A] transition-colors shadow-sm text-[#1A1A1A]"
-                  >
-                    <Heart className="w-5 h-5" />
-                  </motion.button>
-                </motion.div>
+              <motion.div variants={fadeUp} className="flex flex-col sm:flex-row gap-4 mb-10" ref={atcButtonRef}>
+                <div className="flex items-center justify-between bg-white border border-black/10 rounded-full py-2 px-4 w-full sm:w-32 shadow-sm">
+                  <button onClick={() => setQuantity(Math.max(1, quantity - 1))} className="p-2 text-[#1A1A1A]/50 hover:text-[#1A1A1A] transition-colors">
+                    <Minus className="w-4 h-4" />
+                  </button>
+                  <span className="font-medium text-sm w-6 text-center">{quantity}</span>
+                  <button onClick={() => setQuantity(quantity + 1)} className="p-2 text-[#1A1A1A]/50 hover:text-[#1A1A1A] transition-colors">
+                    <Plus className="w-4 h-4" />
+                  </button>
+                </div>
+
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="flex-1 bg-[#1A1A1A] text-white py-4 rounded-full text-sm font-semibold tracking-widest shadow-xl shadow-[#C4A35A]/20 hover:bg-[#C4A35A] transition-colors relative overflow-hidden group"
+                >
+                  <span className="absolute inset-0 w-full h-full bg-black/10 origin-[left] rtl:origin-[right] scale-x-0 group-hover:scale-x-100 transition-transform duration-500 ease-out rounded-full"></span>
+                  <span className="relative z-10">ADD TO CART</span>
+                </motion.button>
+
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="w-14 h-[52px] sm:w-[52px] flex items-center justify-center rounded-full border border-black/10 bg-white hover:border-[#C4A35A] hover:text-[#C4A35A] transition-colors shadow-sm text-[#1A1A1A]"
+                >
+                  <Heart className="w-5 h-5" />
+                </motion.button>
+              </motion.div>
 
               {/* Frequently Bought Together */}
               <motion.div variants={fadeUp} className="mb-10 bg-gray-50 border border-gray-200 rounded-3xl p-6 shadow-sm">
                 <h3 className="font-serif text-2xl text-[#1A1A1A] mb-6">Frequently Bought Together</h3>
-                
+
                 {/* Visual Bundle Preview */}
                 <div className="flex items-center gap-4 mb-8 overflow-x-auto hide-scrollbar pb-2">
                   <div className="w-24 h-24 shrink-0 rounded-2xl overflow-hidden shadow-sm bg-white border border-gray-100">
@@ -307,15 +307,15 @@ export function ProductDetail() {
                   {fbtProducts.map((prod, idx) => (
                     <div key={idx} className="flex items-center justify-between pl-1">
                       <label className="flex items-center gap-3 cursor-pointer">
-                        <input 
-                          type="checkbox" 
+                        <input
+                          type="checkbox"
                           checked={fbtSelected[idx]}
                           onChange={() => {
                             const newSelected = [...fbtSelected];
                             newSelected[idx] = !newSelected[idx];
                             setFbtSelected(newSelected);
                           }}
-                          className="form-checkbox" 
+                          className="form-checkbox"
                         />
                         <div className="flex items-center gap-3">
                           <img src={prod.img} alt={prod.name} className="w-12 h-12 object-cover rounded-md" />
@@ -360,7 +360,7 @@ export function ProductDetail() {
         </div>
 
         {/* 4. Cross-sell Section */}
-        <motion.section 
+        <motion.section
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
@@ -371,14 +371,14 @@ export function ProductDetail() {
             <h2 className="font-serif text-3xl md:text-4xl text-[#1A1A1A] mb-4 text-center">Complete the Look</h2>
             <div className="w-12 h-[2px] bg-[#C4A35A] rounded-full"></div>
           </motion.div>
-          
+
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {crossSell.map((product, idx) => (
               <motion.div variants={fadeUp} key={idx} className="group cursor-pointer flex flex-col bg-white p-2 rounded-[2rem] shadow-sm shadow-black/5 hover:shadow-xl hover:shadow-black/10 transition-shadow duration-500">
                 <div className="relative aspect-[4/5] overflow-hidden bg-[#FFFFFF] rounded-3xl mb-4">
                   <div className="absolute top-3 start-3 bg-white/90 backdrop-blur-md text-[#1A1A1A] text-[9px] font-bold tracking-widest px-3 py-1.5 rounded-full z-10 shadow-sm">STYLE MATCH</div>
                   <div className="absolute top-3 end-3 z-20">
-                    <button 
+                    <button
                       onClick={(e) => { e.preventDefault(); }}
                       className="bg-white/80 hover:bg-white backdrop-blur-md text-[#1A1A1A] hover:text-red-500 p-2 rounded-full shadow-sm transition-colors"
                       aria-label="Add to wishlist"
@@ -387,7 +387,7 @@ export function ProductDetail() {
                     </button>
                   </div>
                   <img src={product.img} alt={product.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-[0.16,1,0.3,1]" />
-                  
+
                   <div className="absolute bottom-3 start-3 end-3 translate-y-0 opacity-100 transition-all duration-500 ease-out z-10">
                     <button className="w-full bg-[#1A1A1A]/80 backdrop-blur-md hover:bg-[#C4A35A] text-white py-3 text-xs font-medium tracking-widest rounded-xl transition-colors shadow-lg">
                       QUICK ADD
@@ -405,7 +405,7 @@ export function ProductDetail() {
         </motion.section>
 
         {/* You May Also Like */}
-        <motion.section 
+        <motion.section
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
@@ -416,13 +416,13 @@ export function ProductDetail() {
             <h2 className="font-serif text-3xl md:text-4xl text-[#1A1A1A] mb-4 text-center">You May Also Like</h2>
             <div className="w-12 h-[2px] bg-[#C4A35A] rounded-full"></div>
           </motion.div>
-          
+
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {crossSell.map((product, idx) => (
               <motion.div variants={fadeUp} key={`related-${idx}`} className="group cursor-pointer flex flex-col bg-white p-2 rounded-[2rem] shadow-sm shadow-black/5 hover:shadow-xl hover:shadow-black/10 transition-shadow duration-500 border border-transparent hover:border-[#E8E0D4]/50">
                 <div className="relative aspect-[4/5] overflow-hidden bg-gray-50 rounded-3xl mb-4">
                   <div className="absolute top-3 end-3 z-20">
-                    <button 
+                    <button
                       onClick={(e) => { e.preventDefault(); }}
                       className="bg-white/80 hover:bg-white backdrop-blur-md text-[#1A1A1A] hover:text-red-500 p-2 rounded-full shadow-sm transition-colors"
                       aria-label="Add to wishlist"
@@ -449,7 +449,7 @@ export function ProductDetail() {
 
         {/* Recently Viewed */}
         {recentlyViewed.length > 0 && (
-          <motion.section 
+          <motion.section
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
@@ -460,7 +460,7 @@ export function ProductDetail() {
               <h2 className="font-serif text-3xl md:text-4xl text-[#1A1A1A] mb-4 text-center">Recently Viewed</h2>
               <div className="w-12 h-[2px] bg-[#C4A35A] rounded-full"></div>
             </motion.div>
-            
+
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
               {recentlyViewed.map((product, idx) => (
                 <motion.div variants={fadeUp} key={`recent-${idx}`} className="group cursor-pointer flex flex-col">
@@ -478,7 +478,7 @@ export function ProductDetail() {
         )}
 
         {/* 5. Reviews Section */}
-        <motion.section 
+        <motion.section
           id="reviews"
           initial="hidden"
           whileInView="visible"
@@ -489,14 +489,14 @@ export function ProductDetail() {
           <div className="absolute top-0 end-0 w-[600px] h-[600px] bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-white/40 to-transparent opacity-60 blur-3xl pointer-events-none rounded-full rtl:-translate-x-0 rtl:translate-x-reverse translate-x-1/3 -translate-y-1/3"></div>
 
           <div className="relative z-10 flex flex-col lg:flex-row gap-16">
-            
+
             <motion.div variants={fadeUp} className="lg:w-1/3 flex flex-col">
               <h2 className="font-serif text-3xl md:text-4xl text-[#1A1A1A] mb-4">Customer Reviews</h2>
               <div className="flex items-end gap-4 mb-8">
                 <span className="font-serif text-6xl text-[#1A1A1A] leading-none">4.8</span>
                 <div className="flex flex-col gap-1 pb-1">
                   <div className="flex text-[#C4A35A]">
-                    {[1,2,3,4,5].map(i => <Star key={i} className="w-4 h-4 fill-current" />)}
+                    {[1, 2, 3, 4, 5].map(i => <Star key={i} className="w-4 h-4 fill-current" />)}
                   </div>
                   <span className="text-sm font-light text-[#1A1A1A]/70">Based on 126 reviews</span>
                 </div>
@@ -536,7 +536,7 @@ export function ProductDetail() {
                   <div className="flex items-start justify-between mb-4">
                     <div>
                       <div className="flex text-[#C4A35A] mb-1">
-                        {[1,2,3,4,5].map(s => <Star key={s} className="w-3.5 h-3.5 fill-current" />)}
+                        {[1, 2, 3, 4, 5].map(s => <Star key={s} className="w-3.5 h-3.5 fill-current" />)}
                       </div>
                       <span className="font-serif text-xl font-medium">{review.name}</span>
                     </div>
@@ -567,7 +567,7 @@ export function ProductDetail() {
               </div>
             </div>
           </div>
-          
+
           <div className="flex items-center gap-4 w-full md:w-auto shrink-0 justify-between md:justify-end">
             <div className="md:hidden flex flex-col justify-center">
               <span className="font-medium text-[#C4A35A]">EGP 2,450</span>

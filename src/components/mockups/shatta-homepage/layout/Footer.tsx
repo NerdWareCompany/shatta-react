@@ -42,7 +42,7 @@ export function Footer() {
         <div>
           <h4 className="font-serif text-xl mb-6 text-[#C4A35A]">Help & Support</h4>
           <ul className="space-y-4">
-            {[{label: 'Contact Us', href: '/preview/shatta-homepage/Contact'}, {label: 'Blog', href: '/preview/shatta-homepage/Blog'}, {label: 'Track Order', href: '#'}, {label: 'Returns Policy', href: '#'}, {label: 'Store Finder', href: '#'}, {label: 'Home Inspection', href: '#'}].map(link => (
+            {[{label: 'Contact Us', href: '/preview/shatta-homepage/Contact'}, {label: 'Blog', href: '/preview/shatta-homepage/Blog'}, {label: 'Track Order', href: '#'}, {label: 'Returns Policy', href: '#'}, {label: 'Store Finder', href: '/preview/shatta-homepage/Branches'}, {label: 'Home Inspection', href: '#'}].map(link => (
               <li key={link.label} className="group">
                 <a href={link.href} className="text-white/70 hover:text-[#C4A35A] text-sm font-light transition-colors flex items-center">
                   <span className="w-0 overflow-hidden group-hover:w-3 transition-all duration-300">-</span>

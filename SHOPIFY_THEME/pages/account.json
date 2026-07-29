@@ -1,0 +1,534 @@
+{% comment %}
+  SHATTA Account Page
+  Customer account, orders, addresses, settings
+  Uses Shopify's built-in customer account features
+{% endcomment %}
+
+<style>
+  .account-container {
+    max-width: 80rem;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    font-size: 0.75rem;
+    color: rgba(26, 26, 26, 0.5);
+    font-weight: 300;
+    margin-bottom: 2rem;
+    letter-spacing: 0.05em;
+  }
+
+  .breadcrumb a {
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+
+  .breadcrumb a:hover {
+    color: #1A1A1A;
+  }
+
+  .breadcrumb-separator {
+    margin: 0 0.5rem;
+  }
+
+  .breadcrumb-current {
+    color: #C4A35A;
+    font-weight: 500;
+  }
+
+  .account-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .account-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 700;
+    color: #1A1A1A;
+  }
+
+  .logout-link {
+    color: #C4A35A;
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: 600;
+    padding: 0.5rem 1rem;
+    border: 1px solid #E8E0D4;
+    border-radius: 0.5rem;
+    transition: all 0.3s;
+  }
+
+  .logout-link:hover {
+    background-color: #C4A35A;
+    color: white;
+  }
+
+  .account-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    margin-bottom: 3rem;
+  }
+
+  @media (min-width: 768px) {
+    .account-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2rem;
+    }
+  }
+
+  .info-card {
+    background-color: white;
+    border: 1px solid #E8E0D4;
+    border-radius: 1.5rem;
+    padding: 2rem;
+  }
+
+  .card-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1A1A1A;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .card-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    flex-shrink: 0;
+  }
+
+  .info-group {
+    margin-bottom: 1rem;
+  }
+
+  .label {
+    font-size: 0.75rem;
+    color: rgba(26, 26, 26, 0.5);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.25rem;
+    display: block;
+  }
+
+  .value {
+    color: #1A1A1A;
+    font-weight: 500;
+  }
+
+  .account-actions {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-decoration: none;
+    display: inline-block;
+  }
+
+  .btn-primary {
+    background-color: #C4A35A;
+    color: white;
+  }
+
+  .btn-primary:hover {
+    background-color: #D4B97A;
+  }
+
+  .btn-secondary {
+    background-color: white;
+    color: #1A1A1A;
+    border: 1px solid #E8E0D4;
+  }
+
+  .btn-secondary:hover {
+    background-color: #F9F9F9;
+  }
+
+  .orders-section {
+    margin-bottom: 3rem;
+  }
+
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.5rem, 4vw, 2rem);
+    font-weight: 700;
+    color: #1A1A1A;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .orders-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    border: 1px solid #E8E0D4;
+    border-radius: 1rem;
+    overflow: hidden;
+  }
+
+  .orders-table th {
+    background-color: #FAFAFA;
+    padding: 1rem;
+    text-align: left;
+    font-weight: 600;
+    font-size: 0.875rem;
+    color: rgba(26, 26, 26, 0.7);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-bottom: 2px solid #E8E0D4;
+  }
+
+  .orders-table td {
+    padding: 1rem;
+    border-bottom: 1px solid #E8E0D4;
+  }
+
+  .orders-table tr:last-child td {
+    border-bottom: none;
+  }
+
+  .order-id {
+    color: #C4A35A;
+    font-weight: 600;
+  }
+
+  .order-status {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 1rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+
+  .status-pending {
+    background-color: rgba(196, 163, 90, 0.1);
+    color: #C4A35A;
+  }
+
+  .status-fulfilled {
+    background-color: rgba(34, 197, 94, 0.1);
+    color: #22c55e;
+  }
+
+  .addresses-section {
+    margin-bottom: 3rem;
+  }
+
+  .addresses-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 2rem;
+  }
+
+  .address-card {
+    background-color: white;
+    border: 1px solid #E8E0D4;
+    border-radius: 1rem;
+    padding: 1.5rem;
+  }
+
+  .address-card.default {
+    border-color: #C4A35A;
+    background-color: rgba(196, 163, 90, 0.02);
+  }
+
+  .address-label {
+    display: inline-block;
+    background-color: rgba(196, 163, 90, 0.1);
+    color: #C4A35A;
+    padding: 0.25rem 0.75rem;
+    border-radius: 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+  }
+
+  .address-label.default-badge {
+    background-color: #C4A35A;
+    color: white;
+  }
+
+  .address-text {
+    font-size: 0.875rem;
+    color: #1A1A1A;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+  }
+
+  .address-actions {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .btn-sm {
+    padding: 0.375rem 0.75rem;
+    font-size: 0.75rem;
+  }
+
+  .no-data {
+    text-align: center;
+    padding: 3rem;
+    color: rgba(26, 26, 26, 0.5);
+  }
+
+  .no-data-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+  }
+
+  .no-data-text {
+    font-weight: 300;
+    margin-bottom: 1.5rem;
+  }
+
+  @media (max-width: 768px) {
+    .account-container {
+      padding: 1rem;
+    }
+
+    .account-header {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .info-card {
+      padding: 1.5rem;
+    }
+
+    .orders-table {
+      font-size: 0.875rem;
+    }
+
+    .orders-table th,
+    .orders-table td {
+      padding: 0.75rem;
+    }
+  }
+</style>
+
+<div class="min-h-screen bg-white">
+  <div class="account-container">
+    {% comment %} Breadcrumb {% endcomment %}
+    <div class="breadcrumb">
+      <a href="/">Home</a>
+      <span class="breadcrumb-separator">/</span>
+      <span class="breadcrumb-current">My Account</span>
+    </div>
+
+    {% comment %} Account Header {% endcomment %}
+    <div class="account-header">
+      <h1 class="account-title">My Account</h1>
+      <a href="/account/logout" class="logout-link">Sign Out</a>
+    </div>
+
+    {% comment %} Account Info Grid {% endcomment %}
+    <div class="account-grid">
+      {% comment %} Account Details {% endcomment %}
+      <div class="info-card">
+        <h2 class="card-title">
+          <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+          Account Details
+        </h2>
+
+        <div class="info-group">
+          <span class="label">Name</span>
+          <span class="value">{{ customer.first_name }} {{ customer.last_name }}</span>
+        </div>
+
+        <div class="info-group">
+          <span class="label">Email</span>
+          <span class="value">{{ customer.email }}</span>
+        </div>
+
+        <div class="info-group">
+          <span class="label">Phone</span>
+          <span class="value">{{ customer.phone | default: 'Not provided' }}</span>
+        </div>
+
+        <div class="account-actions">
+          <a href="/account/edit" class="btn btn-primary">Edit Profile</a>
+          <a href="/account" class="btn btn-secondary">Change Password</a>
+        </div>
+      </div>
+
+      {% comment %} Account Statistics {% endcomment %}
+      <div class="info-card">
+        <h2 class="card-title">
+          <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2v20m0 0l7-7m-7 7l-7-7"></path>
+          </svg>
+          Account Activity
+        </h2>
+
+        <div class="info-group">
+          <span class="label">Total Orders</span>
+          <span class="value">{{ customer.orders_count }}</span>
+        </div>
+
+        <div class="info-group">
+          <span class="label">Total Spent</span>
+          <span class="value">{{ customer.total_spent | money }}</span>
+        </div>
+
+        <div class="info-group">
+          <span class="label">Member Since</span>
+          <span class="value">{{ customer.created_at | date: "%B %d, %Y" }}</span>
+        </div>
+
+        <div class="account-actions">
+          <a href="/collections/all" class="btn btn-primary">Continue Shopping</a>
+        </div>
+      </div>
+    </div>
+
+    {% comment %} Recent Orders {% endcomment %}
+    <div class="orders-section">
+      <h2 class="section-title">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="9" cy="21" r="1"></circle>
+          <circle cx="20" cy="21" r="1"></circle>
+          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+        </svg>
+        Recent Orders
+      </h2>
+
+      {% if customer.orders %}
+        <table class="orders-table">
+          <thead>
+            <tr>
+              <th>Order #</th>
+              <th>Date</th>
+              <th>Status</th>
+              <th>Total</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for order in customer.orders limit: 5 %}
+              <tr>
+                <td><span class="order-id">#{{ order.order_number }}</span></td>
+                <td>{{ order.created_at | date: "%b %d, %Y" }}</td>
+                <td>
+                  <span class="order-status {% if order.fulfillment_status == 'fulfilled' %}status-fulfilled{% else %}status-pending{% endif %}">
+                    {{ order.fulfillment_status | default: 'pending' }}
+                  </span>
+                </td>
+                <td>{{ order.total_price | money }}</td>
+                <td><a href="{{ order.customer_url }}" class="btn btn-secondary btn-sm">View</a></td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      {% else %}
+        <div class="no-data">
+          <div class="no-data-icon">📦</div>
+          <div class="no-data-text">No orders yet</div>
+          <a href="/collections/all" class="btn btn-primary">Start Shopping</a>
+        </div>
+      {% endif %}
+    </div>
+
+    {% comment %} Saved Addresses {% endcomment %}
+    <div class="addresses-section">
+      <h2 class="section-title">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+          <circle cx="12" cy="10" r="3"></circle>
+        </svg>
+        Saved Addresses
+      </h2>
+
+      {% if customer.addresses %}
+        <div class="addresses-grid">
+          {% for address in customer.addresses %}
+            <div class="address-card {% if address == customer.default_address %}default{% endif %}">
+              {% if address == customer.default_address %}
+                <span class="address-label default-badge">Default Address</span>
+              {% endif %}
+              
+              <div class="address-text">
+                <strong>{{ address.first_name }} {{ address.last_name }}</strong><br>
+                {{ address.street }}<br>
+                {% if address.street2 %}{{ address.street2 }}<br>{% endif %}
+                {{ address.city }}, {{ address.province }} {{ address.zip }}<br>
+                {{ address.country }}<br>
+                {{ address.phone }}
+              </div>
+
+              <div class="address-actions">
+                <a href="{{ address.url }}" class="btn btn-secondary btn-sm">Edit</a>
+                <a href="{{ address.delete_url }}" class="btn btn-secondary btn-sm" onclick="return confirm('Delete this address?')">Delete</a>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+
+        <div style="margin-top: 2rem;">
+          <a href="/account/addresses" class="btn btn-primary">Add New Address</a>
+        </div>
+      {% else %}
+        <div class="no-data">
+          <div class="no-data-icon">📍</div>
+          <div class="no-data-text">No saved addresses</div>
+          <a href="/account/addresses" class="btn btn-primary">Add Address</a>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+<script>
+  (function() {
+    'use strict';
+    
+    // Add accessibility attributes
+    const links = document.querySelectorAll('a[href*="/account"]');
+    links.forEach(link => {
+      if (!link.getAttribute('aria-label')) {
+        link.setAttribute('aria-label', link.textContent.trim());
+      }
+    });
+
+    // Add keyboard focus styles
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Tab') {
+        document.body.classList.add('keyboard-focus');
+      }
+    });
+
+    document.addEventListener('mousedown', function() {
+      document.body.classList.remove('keyboard-focus');
+    });
+  })();
+</script>

@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
 import { Header } from './layout/Header';
 import { Footer } from './layout/Footer';
-import { 
-  Eye, 
-  EyeOff, 
-  Mail, 
-  Lock, 
-  User, 
-  Phone, 
-  ArrowRight, 
-  ArrowLeft, 
-  Check, 
-  ShieldCheck, 
+import {
+  Eye,
+  EyeOff,
+  Mail,
+  Lock,
+  User,
+  Phone,
+  ArrowRight,
+  ArrowLeft,
+  Check,
+  ShieldCheck,
   Sparkles,
   KeyRound,
   CheckCircle2
@@ -37,7 +37,7 @@ export function Auth({ initialView = 'login', onSuccess }: AuthProps) {
   // Form Field Inputs
   const [loginEmail, setLoginEmail] = useState('sarah.mahmoud@example.com');
   const [loginPassword, setLoginPassword] = useState('••••••••');
-  
+
   const [regFirstName, setRegFirstName] = useState('');
   const [regLastName, setRegLastName] = useState('');
   const [regEmail, setRegEmail] = useState('');
@@ -147,12 +147,12 @@ export function Auth({ initialView = 'login', onSuccess }: AuthProps) {
       <Header />
 
       <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20 flex items-center justify-center min-h-[calc(100vh-200px)]">
-        
+
         <div className="w-full bg-white border border-[#E8E0D4] rounded-[2.5rem] shadow-xl overflow-hidden grid grid-cols-1 lg:grid-cols-12 min-h-[620px]">
-          
+
           {/* LEFT Brand Side Card (5 Cols) */}
           <div className="lg:col-span-5 bg-[#1A1A1A] text-white p-8 md:p-12 flex flex-col justify-between relative overflow-hidden group">
-            
+
             {/* Background Pattern / Subtle Glow */}
             <div className="absolute -top-24 -left-24 w-72 h-72 bg-[#C4A35A]/20 rounded-full blur-3xl group-hover:bg-[#C4A35A]/30 transition-all duration-700 pointer-events-none" />
             <div className="absolute -bottom-24 -right-24 w-80 h-80 bg-[#C4A35A]/10 rounded-full blur-3xl pointer-events-none" />
@@ -196,9 +196,9 @@ export function Auth({ initialView = 'login', onSuccess }: AuthProps) {
 
           {/* RIGHT Form Content Area (7 Cols) */}
           <div className="lg:col-span-7 p-8 md:p-12 flex flex-col justify-center bg-white relative">
-            
+
             <AnimatePresence mode="wait">
-              
+
               {/* LOGIN VIEW */}
               {view === 'login' && (
                 <motion.div
@@ -291,7 +291,7 @@ export function Auth({ initialView = 'login', onSuccess }: AuthProps) {
                     <button
                       type="submit"
                       disabled={isLoading}
-                      className="w-full bg-[#C4A35A] hover:bg-[#B39249] text-white py-4 rounded-full text-xs font-semibold tracking-widest transition-all shadow-md shadow-[#C4A35A]/20 flex items-center justify-center gap-2"
+                      className="w-full bg-[#1A1A1A] hover:bg-[#C4A35A] text-white py-4 rounded-full text-xs font-semibold tracking-widest transition-all shadow-md shadow-[#C4A35A]/20 flex items-center justify-center gap-2"
                     >
                       {isLoading ? (
                         <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
@@ -308,25 +308,25 @@ export function Auth({ initialView = 'login', onSuccess }: AuthProps) {
                   <div className="pt-4 border-t border-[#E8E0D4]">
                     <div className="text-center text-xs text-[#1A1A1A]/50 mb-4 font-medium">OR CONTINUE WITH</div>
                     <div className="grid grid-cols-2 gap-4">
-                      <button 
+                      <button
                         onClick={() => alert("Google Login initiated")}
                         className="flex items-center justify-center gap-2 py-3 px-4 border border-[#E8E0D4] rounded-xl text-xs font-medium text-[#1A1A1A]/80 hover:bg-gray-50 transition-colors"
                       >
                         <svg className="w-4 h-4" viewBox="0 0 24 24">
-                          <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.17z"/>
-                          <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.28v3.15C3.25 21.3 7.31 24 12 24z"/>
-                          <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.28C.46 8.21 0 10.05 0 12s.46 3.79 1.28 5.42l4-3.15z"/>
-                          <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.31 0 3.25 2.7 1.28 6.58l4 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/>
+                          <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.17z" />
+                          <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.28v3.15C3.25 21.3 7.31 24 12 24z" />
+                          <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.28C.46 8.21 0 10.05 0 12s.46 3.79 1.28 5.42l4-3.15z" />
+                          <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.31 0 3.25 2.7 1.28 6.58l4 3.15c.95-2.83 3.6-4.98 6.72-4.98z" />
                         </svg>
                         <span>Google</span>
                       </button>
 
-                      <button 
+                      <button
                         onClick={() => alert("Apple Login initiated")}
                         className="flex items-center justify-center gap-2 py-3 px-4 border border-[#E8E0D4] rounded-xl text-xs font-medium text-[#1A1A1A]/80 hover:bg-gray-50 transition-colors"
                       >
                         <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
-                          <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.09c.66-.82 1.12-1.96.99-3.11-1 .04-2.22.68-2.93 1.5-.63.73-1.18 1.89-1.03 3.01 1.12.09 2.28-.57 2.97-1.4"/>
+                          <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.09c.66-.82 1.12-1.96.99-3.11-1 .04-2.22.68-2.93 1.5-.63.73-1.18 1.89-1.03 3.01 1.12.09 2.28-.57 2.97-1.4" />
                         </svg>
                         <span>Apple</span>
                       </button>
@@ -482,7 +482,7 @@ export function Auth({ initialView = 'login', onSuccess }: AuthProps) {
                     <button
                       type="submit"
                       disabled={isLoading}
-                      className="w-full bg-[#C4A35A] hover:bg-[#B39249] text-white py-3.5 rounded-full text-xs font-semibold tracking-widest transition-all shadow-md shadow-[#C4A35A]/20 flex items-center justify-center gap-2 mt-2"
+                      className="w-full bg-[#1A1A1A] hover:bg-[#C4A35A] text-white py-3.5 rounded-full text-xs font-semibold tracking-widest transition-all shadow-md shadow-[#C4A35A]/20 flex items-center justify-center gap-2 mt-2"
                     >
                       {isLoading ? (
                         <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />

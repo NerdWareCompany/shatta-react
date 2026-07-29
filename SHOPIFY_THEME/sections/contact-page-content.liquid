@@ -1,0 +1,402 @@
+{% comment %}
+  SHATTA Contact Page Content
+{% endcomment %}
+
+<style>
+  .contact-page {
+    background: #FFFFFF;
+    max-width: 80rem;
+    margin: 0 auto;
+    padding: 2rem 1rem 4rem;
+  }
+
+  .contact-page .contact-breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    color: rgba(26, 26, 26, 0.5);
+    margin-bottom: 1.5rem;
+  }
+
+  .contact-page .contact-breadcrumb a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .contact-page .contact-breadcrumb a:hover {
+    color: #1A1A1A;
+  }
+
+  .contact-page .contact-breadcrumb strong {
+    color: #C4A35A;
+    font-weight: 600;
+  }
+
+  .contact-page h1 {
+    margin: 0;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 5vw, 3.75rem);
+    color: #1A1A1A;
+    line-height: 1.1;
+  }
+
+  .contact-page .contact-intro {
+    margin: 0.75rem 0 2rem;
+    color: rgba(26, 26, 26, 0.62);
+    max-width: 40rem;
+    line-height: 1.6;
+  }
+
+  .contact-page .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .contact-page .contact-card {
+    background: #F9F9F9;
+    border: 1px solid #E8E0D4;
+    border-radius: 1.8rem;
+    padding: 1.25rem;
+  }
+
+  .contact-page .contact-card h2,
+  .contact-page .contact-card h3 {
+    margin: 0 0 1rem;
+    font-family: 'Cormorant Garamond', serif;
+    color: #1A1A1A;
+  }
+
+  .contact-page .field-row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .contact-page .field {
+    margin-bottom: 0.75rem;
+  }
+
+  .contact-page label {
+    display: block;
+    margin-bottom: 0.4rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.7rem;
+    color: rgba(26, 26, 26, 0.56);
+    font-weight: 600;
+  }
+
+  .contact-page input,
+  .contact-page select,
+  .contact-page textarea {
+    width: 100%;
+    border: 1px solid #E8E0D4;
+    border-radius: 0.75rem;
+    background: #FFFFFF;
+    color: #1A1A1A;
+    font-size: 0.875rem;
+    padding: 0.9rem 0.95rem;
+    font-family: 'Inter', sans-serif;
+  }
+
+  .contact-page textarea {
+    min-height: 8rem;
+    resize: vertical;
+  }
+
+  .contact-page input:focus,
+  .contact-page select:focus,
+  .contact-page textarea:focus {
+    outline: 2px solid #C4A35A;
+    outline-offset: 1px;
+    border-color: #C4A35A;
+  }
+
+  .contact-page .contact-submit {
+    border: 0;
+    border-radius: 9999px;
+    background: #C4A35A;
+    color: #FFFFFF;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    padding: 0.95rem 1.75rem;
+    min-height: 2.85rem;
+  }
+
+  .contact-page .contact-submit:hover {
+    background: #B39249;
+  }
+
+  .contact-page .contact-info-col {
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .contact-page .info-box {
+    background: #FFFFFF;
+    border: 1px solid #E8E0D4;
+    border-radius: 1.25rem;
+    padding: 1rem;
+  }
+
+  .contact-page .info-box p {
+    margin: 0;
+    color: rgba(26, 26, 26, 0.7);
+    line-height: 1.6;
+    font-size: 0.9rem;
+  }
+
+  .contact-page .info-box a {
+    color: #1A1A1A;
+    text-decoration: none;
+  }
+
+  .contact-page .info-box a:hover {
+    color: #C4A35A;
+  }
+
+  .contact-page .map-block {
+    margin-top: 2rem;
+    border-radius: 2rem;
+    min-height: 260px;
+    padding: 2rem;
+    background: #E8E0D4;
+    display: grid;
+    place-items: center;
+    text-align: center;
+  }
+
+  .contact-page .map-block h3 {
+    margin: 0.5rem 0 0;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem;
+    color: #1A1A1A;
+  }
+
+  .contact-page .faq {
+    margin-top: 2.5rem;
+  }
+
+  .contact-page .faq h2 {
+    text-align: center;
+    margin: 0 0 1rem;
+    font-family: 'Cormorant Garamond', serif;
+    color: #1A1A1A;
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+  }
+
+  .contact-page .faq-item {
+    border: 1px solid #E8E0D4;
+    border-radius: 1rem;
+    overflow: hidden;
+    margin-bottom: 0.75rem;
+  }
+
+  .contact-page .faq-toggle {
+    width: 100%;
+    border: 0;
+    background: #FFFFFF;
+    color: #1A1A1A;
+    text-align: left;
+    padding: 1rem;
+    font-weight: 600;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .contact-page .faq-toggle[aria-expanded='true'] {
+    background: #F9F9F9;
+  }
+
+  .contact-page .faq-answer {
+    display: none;
+    padding: 0 1rem 1rem;
+    color: rgba(26, 26, 26, 0.75);
+    line-height: 1.6;
+    font-size: 0.9rem;
+    background: #FAFAFA;
+  }
+
+  .contact-page .faq-answer.is-open {
+    display: block;
+  }
+
+  .contact-page .form-status {
+    margin-bottom: 0.75rem;
+    font-size: 0.85rem;
+    padding: 0.6rem 0.75rem;
+    border-radius: 0.65rem;
+  }
+
+  .contact-page .form-status.success {
+    background: rgba(34, 197, 94, 0.12);
+    color: #0f7a2d;
+  }
+
+  .contact-page .form-status.error {
+    background: rgba(239, 68, 68, 0.12);
+    color: #B42318;
+  }
+
+  @media (min-width: 768px) {
+    .contact-page {
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
+
+    .contact-page .field-row {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .contact-page .contact-grid {
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 1.25rem;
+    }
+
+    .contact-page .contact-card {
+      padding: 1.75rem;
+    }
+  }
+</style>
+
+<section class="contact-page" aria-label="Contact SHATTA">
+  <nav class="contact-breadcrumb" aria-label="Breadcrumb">
+    <a href="/">Home</a>
+    <span>/</span>
+    <strong>Contact Us</strong>
+  </nav>
+
+  <h1>Get In Touch</h1>
+  <p class="contact-intro">We are here to help. Whether you have a question about our products, need design advice, or require assistance with your order.</p>
+
+  <div class="contact-grid">
+    <div class="contact-card">
+      <h2>Send us a message</h2>
+      {% form 'contact', id: 'ContactForm', class: 'contact-form' %}
+        {% if form.posted_successfully? %}
+          <p class="form-status success" role="status">Thanks. Your message has been sent successfully.</p>
+        {% endif %}
+        {% if form.errors %}
+          <div class="form-status error" role="alert">{{ form.errors | default_errors }}</div>
+        {% endif %}
+
+        <div class="field-row">
+          <div class="field">
+            <label for="ContactFormName">Full Name</label>
+            <input id="ContactFormName" type="text" name="contact[name]" required aria-required="true" autocomplete="name">
+          </div>
+          <div class="field">
+            <label for="ContactFormEmail">Email Address</label>
+            <input id="ContactFormEmail" type="email" name="contact[email]" required aria-required="true" autocomplete="email">
+          </div>
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label for="ContactFormPhone">Phone Number</label>
+            <input id="ContactFormPhone" type="tel" name="contact[phone]" autocomplete="tel">
+          </div>
+          <div class="field">
+            <label for="ContactFormSubject">Subject</label>
+            <select id="ContactFormSubject" name="contact[subject]">
+              <option value="Order Inquiry">Order Inquiry</option>
+              <option value="Product Information">Product Information</option>
+              <option value="Interior Design Services">Interior Design Services</option>
+              <option value="Returns & Exchanges">Returns & Exchanges</option>
+              <option value="Corporate Sales">Corporate Sales</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="ContactFormMessage">Your Message</label>
+          <textarea id="ContactFormMessage" name="contact[body]" required aria-required="true"></textarea>
+        </div>
+
+        <button type="submit" class="contact-submit" aria-label="Send contact message">SEND MESSAGE</button>
+      {% endform %}
+    </div>
+
+    <div class="contact-info-col" aria-label="Contact information">
+      <article class="info-box">
+        <h3>Visit a Showroom</h3>
+        <p>Experience our collections in person at one of our 25+ branches across Egypt.</p>
+      </article>
+      <article class="info-box">
+        <h3>Call Us</h3>
+        <p><a href="tel:19888">19888</a><br>Available daily from 10:00 AM to 10:00 PM</p>
+      </article>
+      <article class="info-box">
+        <h3>Email Us</h3>
+        <p><a href="mailto:hello@shattahome.com">hello@shattahome.com</a><br>Response within 24 hours.</p>
+      </article>
+    </div>
+  </div>
+
+  <div class="map-block" role="img" aria-label="SHATTA showrooms in Cairo and across Egypt">
+    <div>
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+        <circle cx="12" cy="10" r="3"></circle>
+      </svg>
+      <h3>Cairo, Egypt</h3>
+      <p>25+ branches nationwide</p>
+    </div>
+  </div>
+
+  <div class="faq" aria-label="Frequently asked questions">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-item">
+      <button class="faq-toggle" type="button" aria-expanded="false" aria-controls="faq-a1">
+        <span>What is your return policy?</span>
+        <span aria-hidden="true">+</span>
+      </button>
+      <div id="faq-a1" class="faq-answer">We offer a 30-day return policy on unused items in original packaging.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-toggle" type="button" aria-expanded="false" aria-controls="faq-a2">
+        <span>How long does shipping take?</span>
+        <span aria-hidden="true">+</span>
+      </button>
+      <div id="faq-a2" class="faq-answer">Standard delivery usually takes 3 to 5 business days inside Cairo.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-toggle" type="button" aria-expanded="false" aria-controls="faq-a3">
+        <span>Do you offer custom orders?</span>
+        <span aria-hidden="true">+</span>
+      </button>
+      <div id="faq-a3" class="faq-answer">Yes, custom sizing and color services are available through our design team.</div>
+    </div>
+  </div>
+</section>
+
+<script>
+  (function() {
+    document.querySelectorAll('.contact-page .faq-toggle').forEach((button) => {
+      button.addEventListener('click', function() {
+        const targetId = this.getAttribute('aria-controls');
+        const answer = targetId ? document.getElementById(targetId) : null;
+        const expanded = this.getAttribute('aria-expanded') === 'true';
+        this.setAttribute('aria-expanded', String(!expanded));
+        if (answer) {
+          answer.classList.toggle('is-open', !expanded);
+        }
+      });
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Contact Page Content",
+  "settings": []
+}
+{% endschema %}

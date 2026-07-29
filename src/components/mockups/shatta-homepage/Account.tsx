@@ -336,7 +336,7 @@ export function Account() {
       <Header />
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16">
-        
+
         {/* Page Title Area */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 border-b border-[#E8E0D4] pb-8 gap-6">
           <div>
@@ -350,7 +350,7 @@ export function Account() {
         </div>
 
         <div className="flex flex-col lg:flex-row gap-12 lg:gap-20">
-          
+
           {/* LEFT Sidebar */}
           <div className="w-full lg:w-64 flex-shrink-0">
             <nav className="flex lg:flex-col overflow-x-auto lg:overflow-visible hide-scrollbar gap-2 pb-4 lg:pb-0">
@@ -361,11 +361,10 @@ export function Account() {
                   <button
                     key={tab.id}
                     onClick={() => setActiveTab(tab.id)}
-                    className={`flex items-center gap-3 px-4 py-3.5 rounded-xl transition-all duration-300 whitespace-nowrap min-w-max lg:min-w-0 ${
-                      isActive 
-                        ? 'bg-[#C4A35A]/5 text-[#C4A35A] font-medium' 
-                        : 'text-[#1A1A1A]/70 hover:bg-[#F9F9F9] hover:text-[#1A1A1A]'
-                    } relative overflow-hidden group`}
+                    className={`flex items-center gap-3 px-4 py-3.5 rounded-xl transition-all duration-300 whitespace-nowrap min-w-max lg:min-w-0 ${isActive
+                      ? 'bg-[#C4A35A]/5 text-[#C4A35A] font-medium'
+                      : 'text-[#1A1A1A]/70 hover:bg-[#F9F9F9] hover:text-[#1A1A1A]'
+                      } relative overflow-hidden group`}
                   >
                     {isActive && (
                       <span className="absolute start-0 top-0 bottom-0 w-1 bg-[#C4A35A] rounded-e-full hidden lg:block" />
@@ -381,7 +380,7 @@ export function Account() {
           {/* RIGHT Content Area */}
           <div className="flex-1 min-h-[400px]">
             <AnimatePresence mode="wait">
-              
+
               {/* Order History View */}
               {activeTab === 'orders' && (
                 <motion.div
@@ -412,7 +411,7 @@ export function Account() {
                           {renderStatusPill(order.status)}
                         </div>
                       </div>
-                      
+
                       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6">
                         <div className="flex -space-x-3 rtl:space-x-reverse overflow-hidden">
                           {order.items.map((item, i) => (
@@ -424,12 +423,12 @@ export function Account() {
                         <div className="flex items-center gap-3 flex-wrap sm:flex-nowrap w-full sm:w-auto">
                           <button
                             onClick={() => setInvoiceModalOrder(order)}
-                            className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-5 py-2.5 bg-[#C4A35A] hover:bg-[#B39249] text-white rounded-full text-xs font-semibold tracking-widest transition-all shadow-sm shadow-[#C4A35A]/20"
+                            className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-5 py-2.5 bg-[#1A1A1A] hover:bg-[#C4A35A] text-white rounded-full text-xs font-semibold tracking-widest transition-all shadow-sm shadow-[#C4A35A]/20"
                           >
                             <Download className="w-3.5 h-3.5" />
                             <span>DOWNLOAD INVOICE</span>
                           </button>
-                          <button 
+                          <button
                             onClick={() => setSelectedOrder(order)}
                             className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-5 py-2.5 border border-[#1A1A1A] text-[#1A1A1A] rounded-full text-xs font-semibold tracking-widest hover:bg-[#1A1A1A] hover:text-white transition-colors"
                           >
@@ -457,14 +456,14 @@ export function Account() {
                     {savedAddresses.map((addr) => (
                       <div key={addr.id} className="bg-white border border-[#E8E0D4] rounded-2xl p-6 shadow-sm flex flex-col h-full relative group">
                         <div className="absolute top-6 end-6 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                          <button 
+                          <button
                             onClick={() => handleEditAddress(addr)}
                             title="Edit Address"
                             className="p-1.5 text-[#1A1A1A]/50 hover:text-[#C4A35A] transition-colors"
                           >
                             <Edit2 className="w-4 h-4" />
                           </button>
-                          <button 
+                          <button
                             onClick={() => handleDeleteAddress(addr.id)}
                             title="Delete Address"
                             className="p-1.5 text-[#1A1A1A]/50 hover:text-red-500 transition-colors"
@@ -472,11 +471,10 @@ export function Account() {
                             <Trash2 className="w-4 h-4" />
                           </button>
                         </div>
-                        <div className={`text-[10px] font-bold tracking-widest mb-4 px-3 py-1 rounded-full w-fit ${
-                          addr.isDefault 
-                            ? 'text-[#C4A35A] bg-[#C4A35A]/10' 
-                            : 'text-[#1A1A1A]/50 bg-gray-100'
-                        }`}>
+                        <div className={`text-[10px] font-bold tracking-widest mb-4 px-3 py-1 rounded-full w-fit ${addr.isDefault
+                          ? 'text-[#C4A35A] bg-[#C4A35A]/10'
+                          : 'text-[#1A1A1A]/50 bg-gray-100'
+                          }`}>
                           {addr.title} {addr.isDefault ? '(DEFAULT)' : ''}
                         </div>
                         <div className="font-medium mb-1">{addr.name}</div>
@@ -490,7 +488,7 @@ export function Account() {
                     ))}
 
                     {/* Add New Button */}
-                    <button 
+                    <button
                       onClick={handleOpenNewAddressModal}
                       className="border-2 border-dashed border-[#E8E0D4] rounded-2xl p-6 flex flex-col items-center justify-center min-h-[220px] text-[#1A1A1A]/50 hover:text-[#C4A35A] hover:border-[#C4A35A] transition-colors group bg-gray-50/50 hover:bg-[#C4A35A]/5"
                     >
@@ -522,12 +520,12 @@ export function Account() {
                           <div className="w-24 h-24 rounded-full overflow-hidden border-2 border-[#C4A35A] ring-4 ring-[#C4A35A]/10 shadow-md flex-shrink-0">
                             <img src={profileImage} alt="Profile Avatar" className="w-full h-full object-cover" />
                           </div>
-                          <label className="absolute bottom-0 end-0 bg-[#C4A35A] hover:bg-[#B39249] text-white p-2 rounded-full shadow-md cursor-pointer transition-transform hover:scale-110">
+                          <label className="absolute bottom-0 end-0 bg-[#1A1A1A] hover:bg-[#C4A35A] text-white p-2 rounded-full shadow-md cursor-pointer transition-transform hover:scale-110">
                             <Camera className="w-4 h-4" />
-                            <input 
-                              type="file" 
-                              accept="image/*" 
-                              className="hidden" 
+                            <input
+                              type="file"
+                              accept="image/*"
+                              className="hidden"
                               onChange={(e) => {
                                 const file = e.target.files?.[0];
                                 if (file) {
@@ -541,20 +539,20 @@ export function Account() {
                                   };
                                   reader.readAsDataURL(file);
                                 }
-                              }} 
+                              }}
                             />
                           </label>
                         </div>
 
                         <div className="flex-1 text-center sm:text-start space-y-3">
                           <div className="flex flex-wrap items-center justify-center sm:justify-start gap-3">
-                            <label className="bg-[#C4A35A] text-white px-5 py-2.5 rounded-full text-xs font-semibold tracking-widest hover:bg-[#B39249] shadow-md shadow-[#C4A35A]/20 transition-all cursor-pointer inline-flex items-center gap-2">
+                            <label className="bg-[#1A1A1A] text-white px-5 py-2.5 rounded-full text-xs font-semibold tracking-widest hover:bg-[#C4A35A] shadow-md shadow-[#C4A35A]/20 transition-all cursor-pointer inline-flex items-center gap-2">
                               <Upload className="w-3.5 h-3.5" />
                               <span>{isUploadingImage ? 'UPLOADING...' : 'UPLOAD NEW PHOTO'}</span>
-                              <input 
-                                type="file" 
-                                accept="image/*" 
-                                className="hidden" 
+                              <input
+                                type="file"
+                                accept="image/*"
+                                className="hidden"
                                 onChange={(e) => {
                                   const file = e.target.files?.[0];
                                   if (file) {
@@ -568,12 +566,12 @@ export function Account() {
                                     };
                                     reader.readAsDataURL(file);
                                   }
-                                }} 
+                                }}
                               />
                             </label>
 
-                            <button 
-                              type="button" 
+                            <button
+                              type="button"
                               onClick={() => {
                                 setProfileImage("https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=400");
                                 setImageSaveSuccess(false);
@@ -623,7 +621,7 @@ export function Account() {
                           <input type="tel" defaultValue="+20 10 1234 5678" className="w-full bg-[#FFFFFF] border border-[#E8E0D4] rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-[#C4A35A] focus:ring-1 focus:ring-[#C4A35A] transition-all" />
                         </div>
                         <div className="pt-4">
-                          <button type="button" className="bg-[#C4A35A] text-white px-8 py-3.5 rounded-full text-xs font-medium tracking-widest hover:bg-[#B39249] shadow-lg shadow-[#C4A35A]/20 transition-colors">
+                          <button type="button" className="bg-[#1A1A1A] text-white px-8 py-3.5 rounded-full text-xs font-medium tracking-widest hover:bg-[#C4A35A] shadow-lg shadow-[#C4A35A]/20 transition-colors">
                             SAVE CHANGES
                           </button>
                         </div>
@@ -681,7 +679,7 @@ export function Account() {
                             </div>
                           </div>
                           <img src={product.img} alt={product.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-[0.16,1,0.3,1]" />
-                          
+
                           <div className="absolute bottom-3 start-3 end-3 translate-y-0 opacity-100 transition-all duration-500 ease-out z-10">
                             <button className="w-full bg-[#1A1A1A]/80 backdrop-blur-md hover:bg-[#C4A35A] text-white py-3 text-xs font-medium tracking-widest rounded-xl transition-colors shadow-lg">
                               ADD TO CART
@@ -715,7 +713,7 @@ export function Account() {
               className="bg-white rounded-3xl max-w-3xl w-full p-6 sm:p-10 shadow-2xl relative my-8"
               id="printable-invoice"
             >
-              <button 
+              <button
                 onClick={() => setInvoiceModalOrder(null)}
                 className="absolute top-6 end-6 p-2 rounded-full bg-gray-50 hover:bg-gray-100 text-gray-600 transition-colors print:hidden"
               >
@@ -847,7 +845,7 @@ export function Account() {
               exit={{ opacity: 0, scale: 0.95 }}
               className="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl relative my-8"
             >
-              <button 
+              <button
                 onClick={() => setShowAddressModal(false)}
                 className="absolute top-6 end-6 p-2 rounded-full bg-gray-50 hover:bg-gray-100 text-gray-600 transition-colors"
               >
@@ -867,11 +865,10 @@ export function Account() {
                         key={label}
                         type="button"
                         onClick={() => setAddressFormData({ ...addressFormData, title: label })}
-                        className={`px-4 py-2 rounded-xl text-xs font-semibold tracking-wider border transition-all ${
-                          addressFormData.title === label 
-                            ? 'bg-[#C4A35A] text-white border-[#C4A35A] shadow-sm' 
-                            : 'border-[#E8E0D4] text-[#1A1A1A]/70 hover:border-[#1A1A1A]'
-                        }`}
+                        className={`px-4 py-2 rounded-xl text-xs font-semibold tracking-wider border transition-all ${addressFormData.title === label
+                          ? 'bg-[#C4A35A] text-white border-[#C4A35A] shadow-sm'
+                          : 'border-[#E8E0D4] text-[#1A1A1A]/70 hover:border-[#1A1A1A]'
+                          }`}
                       >
                         {label}
                       </button>
@@ -990,7 +987,7 @@ export function Account() {
 
                   <button
                     type="submit"
-                    className="px-6 py-2.5 bg-[#C4A35A] hover:bg-[#B39249] text-white rounded-full text-xs font-semibold tracking-widest shadow-md shadow-[#C4A35A]/20 transition-all"
+                    className="px-6 py-2.5 bg-[#1A1A1A] hover:bg-[#C4A35A] text-white rounded-full text-xs font-semibold tracking-widest shadow-md shadow-[#C4A35A]/20 transition-all"
                   >
                     {editingAddressId ? 'UPDATE ADDRESS' : 'SAVE ADDRESS'}
                   </button>

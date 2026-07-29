@@ -32,14 +32,14 @@ export function Header() {
   return (
     <>
       {/* 1. Announcement Bar */}
-      <div className="bg-[#C4A35A] text-white text-xs font-light py-2.5 px-6 flex justify-between items-center tracking-wide">
+      <div className="bg-[#1A1A1A] text-white text-xs font-light py-2.5 px-6 flex justify-between items-center tracking-wide">
         <div className="flex items-center gap-2 text-xs">
           <a href="/preview/shatta-homepage/Login" className="hover:text-white/80 font-medium transition-colors">Login</a>
           <span className="opacity-60">|</span>
           <a href="/preview/shatta-homepage/Register" className="hover:text-white/80 font-medium transition-colors">Register</a>
         </div>
         <div className="text-center flex-1 hidden sm:block">
-          Free Shipping on Orders Over EGP 3,000 &middot; 25+ Branches Across Egypt &middot; Est. 1988
+          Free Shipping on Orders Over EGP 3,000 &middot; <a href="/preview/shatta-homepage/Branches" className="hover:text-[#C4A35A] underline transition-colors">25+ Branches Across Egypt</a> &middot; Est. 1988
         </div>
         <div onClick={toggleLanguage} className="cursor-pointer hover:text-white/80 transition-colors">
           EN | عربي
@@ -52,15 +52,15 @@ export function Header() {
           <div className={`px-6 flex items-center justify-between transition-all duration-700 ${isScrolled ? 'py-3' : 'py-4'}`}>
             {/* Left */}
             <div className="flex-1 flex items-center gap-4">
-              <button 
-                type="button" 
+              <button
+                type="button"
                 className="md:hidden text-[#1A1A1A] hover:text-[#C4A35A] transition-colors"
                 onClick={() => setIsMobileMenuOpen(true)}
               >
                 <Menu className="w-6 h-6" />
               </button>
-              
-              <div 
+
+              <div
                 className="hidden sm:flex items-center text-[#1A1A1A]/60 hover:text-[#1A1A1A] transition-colors cursor-pointer group"
                 onClick={() => setIsSearchOpen(true)}
               >
@@ -79,7 +79,7 @@ export function Header() {
             <div className="flex-1 flex justify-end items-center gap-x-4 md:space-x-6 text-[#1A1A1A]">
               <a href="/preview/shatta-homepage/Account"><User className="w-5 h-5 cursor-pointer hover:text-[#C4A35A] transition-colors hidden sm:block" /></a>
               <Heart className="w-5 h-5 cursor-pointer hover:text-[#C4A35A] transition-colors" />
-              <button 
+              <button
                 onClick={(e) => { e.preventDefault(); setIsCartOpen(true); }}
                 className="relative cursor-pointer group"
               >
@@ -94,12 +94,15 @@ export function Header() {
             <ul className="flex justify-center gap-x-8 text-xs font-light tracking-[0.1em] text-[#1A1A1A]">
               {['HOME DECOR', 'BED & BATH', 'CURTAINS', 'BEACH', 'BRIDAL', 'CORPORATE', 'BRANCHES'].map((item) => (
                 <li key={item} className={`cursor-pointer pb-2 relative group ${item === 'HOME DECOR' ? 'position-static' : ''}`}>
-                  <a href="/preview/shatta-homepage/Shop" className="group-hover:text-[#C4A35A] transition-colors duration-300 flex items-center py-1">
+                  <a 
+                    href={item === 'BRANCHES' ? '/preview/shatta-homepage/Branches' : '/preview/shatta-homepage/Shop'} 
+                    className="group-hover:text-[#C4A35A] transition-colors duration-300 flex items-center py-1"
+                  >
                     {item}
                     {item === 'HOME DECOR' && <ChevronDown className="w-3 h-3 ml-1" />}
                   </a>
                   <span className="absolute bottom-0 start-0 w-full h-[2px] bg-[#C4A35A] scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-[left] rtl:origin-[right] rounded-full"></span>
-                  
+
                   {item === 'HOME DECOR' && (
                     <div className="absolute left-0 w-full bg-white shadow-2xl border-t border-[#E8E0D4] pt-8 pb-12 px-8 mt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-4 group-hover:translate-y-0 z-50 text-left">
                       <div className="max-w-7xl mx-auto flex gap-12">
@@ -168,16 +171,16 @@ export function Header() {
 
       {/* Mobile Menu Drawer */}
       <div className={`fixed inset-0 z-[100] ${isMobileMenuOpen ? '' : 'pointer-events-none'}`}>
-        <div 
+        <div
           className={`absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity duration-300 ${isMobileMenuOpen ? 'opacity-100' : 'opacity-0'}`}
           onClick={() => setIsMobileMenuOpen(false)}
         ></div>
         <div className={`absolute inset-y-0 left-0 w-[85%] max-w-[320px] bg-white shadow-2xl flex flex-col transform transition-transform duration-500 ease-[0.16,1,0.3,1] ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'}`}>
-          
+
           <div className="flex items-center justify-between p-6 border-b border-gray-100 shrink-0">
             <span className="font-serif font-bold text-xl tracking-wide text-[#1A1A1A]">MENU</span>
-            <button 
-              type="button" 
+            <button
+              type="button"
               className="p-2 -mr-2 text-gray-400 hover:text-black transition-colors rounded-full hover:bg-gray-50"
               onClick={() => setIsMobileMenuOpen(false)}
             >
@@ -190,8 +193,8 @@ export function Header() {
               {['HOME DECOR', 'BED & BATH', 'CURTAINS', 'BEACH', 'BRIDAL', 'CORPORATE', 'BRANCHES'].map((item) => (
                 <li key={item} className="border-b border-gray-50 last:border-0">
                   {item === 'HOME DECOR' ? (
-                    <details 
-                      className="group/accordion" 
+                    <details
+                      className="group/accordion"
                       open={activeAccordion === item}
                       onClick={(e) => {
                         e.preventDefault();
@@ -233,7 +236,10 @@ export function Header() {
                       </div>
                     </details>
                   ) : (
-                    <a href="/preview/shatta-homepage/Shop" className="flex items-center justify-between px-6 py-4 text-[#1A1A1A] font-medium">
+                    <a 
+                      href={item === 'BRANCHES' ? '/preview/shatta-homepage/Branches' : '/preview/shatta-homepage/Shop'} 
+                      className="flex items-center justify-between px-6 py-4 text-[#1A1A1A] font-medium"
+                    >
                       {item}
                     </a>
                   )}
@@ -243,8 +249,8 @@ export function Header() {
           </div>
 
           <div className="shrink-0 p-6 border-t border-gray-100 bg-gray-50 flex flex-col gap-3">
-            <button 
-              type="button" 
+            <button
+              type="button"
               className="w-full flex items-center justify-center gap-2 bg-white border border-gray-200 rounded-xl py-3 text-sm font-medium text-[#1A1A1A]"
               onClick={() => {
                 setIsMobileMenuOpen(false);

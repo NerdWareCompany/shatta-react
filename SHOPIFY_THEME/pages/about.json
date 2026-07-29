@@ -1,0 +1,447 @@
+{% comment %}
+  SHATTA About Page
+  Company heritage, values, team, and statistics
+{% endcomment %}
+
+<style>
+  .about-hero {
+    position: relative;
+    height: 60vh;
+    overflow: hidden;
+    border-radius: 2.5rem;
+    background-color: white;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  }
+
+  .about-hero-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    transition: transform 0.3s ease-out;
+  }
+
+  .about-hero:hover .about-hero-image {
+    transform: scale(1.05);
+  }
+
+  .about-hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, transparent 40%, rgba(0, 0, 0, 0.8));
+  }
+
+  .about-hero-content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 3rem 2rem;
+    color: white;
+  }
+
+  .about-hero-label {
+    color: #C4A35A;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    display: block;
+  }
+
+  .about-hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 1rem;
+  }
+
+  .story-section {
+    padding: 4rem 2rem;
+    max-width: 80rem;
+    margin: 0 auto;
+  }
+
+  .story-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    align-items: center;
+  }
+
+  @media (min-width: 1024px) {
+    .story-grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+    }
+  }
+
+  .story-image {
+    position: relative;
+    aspect-ratio: 4/5;
+    overflow: hidden;
+    border-radius: 2.5rem;
+    background-color: #E8E0D4;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  }
+
+  .story-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.7s ease-out;
+  }
+
+  .story-image:hover img {
+    transform: scale(1.05);
+  }
+
+  .story-content h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700;
+    color: #1A1A1A;
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+  }
+
+  .story-content h2 .accent {
+    color: #C4A35A;
+    font-style: italic;
+  }
+
+  .story-content p {
+    color: rgba(26, 26, 26, 0.7);
+    font-weight: 300;
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+    text-align: justify;
+  }
+
+  .founder-info {
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid #E8E0D4;
+  }
+
+  .founder-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #1A1A1A;
+    margin-bottom: 0.5rem;
+  }
+
+  .founder-role {
+    font-size: 0.75rem;
+    color: #C4A35A;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .values-section {
+    padding: 4rem 2rem;
+    background-color: #FAFAFA;
+  }
+
+  .values-header {
+    text-align: center;
+    margin-bottom: 4rem;
+    max-width: 80rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .section-label {
+    color: #C4A35A;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 1rem;
+  }
+
+  .values-header h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700;
+    color: #1A1A1A;
+    margin-bottom: 1rem;
+  }
+
+  .divider {
+    width: 3rem;
+    height: 2px;
+    background-color: #C4A35A;
+    border-radius: 1rem;
+    margin: 0 auto;
+  }
+
+  .values-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    max-width: 80rem;
+    margin: 0 auto;
+  }
+
+  .value-card {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 2rem;
+    border: 1px solid transparent;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s;
+  }
+
+  .value-card:hover {
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+    border-color: #E8E0D4;
+  }
+
+  .value-icon {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    background-color: rgba(196, 163, 90, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+    transition: all 0.3s;
+  }
+
+  .value-card:hover .value-icon {
+    background-color: rgba(196, 163, 90, 0.2);
+  }
+
+  .value-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1A1A1A;
+    margin-bottom: 1rem;
+  }
+
+  .value-description {
+    font-size: 0.875rem;
+    color: rgba(26, 26, 26, 0.6);
+    font-weight: 300;
+    line-height: 1.6;
+  }
+
+  .stats-section {
+    padding: 4rem 2rem;
+    background: linear-gradient(135deg, #1A1A1A 0%, #2d2d2d 100%);
+    color: white;
+  }
+
+  .stats-container {
+    max-width: 80rem;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .stats-header {
+    margin-bottom: 3rem;
+  }
+
+  .stats-header h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700;
+    color: white;
+    margin-bottom: 1rem;
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 3rem;
+  }
+
+  .stat-card {
+    text-align: center;
+  }
+
+  .stat-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 6vw, 4rem);
+    font-weight: 700;
+    color: #C4A35A;
+    line-height: 1.1;
+    margin-bottom: 0.5rem;
+  }
+
+  .stat-label {
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: 300;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  @media (max-width: 768px) {
+    .about-hero {
+      height: 50vh;
+    }
+
+    .story-grid {
+      gap: 1.5rem;
+    }
+
+    .values-grid {
+      gap: 1rem;
+    }
+
+    .value-card {
+      padding: 1.5rem;
+    }
+  }
+</style>
+
+<div class="min-h-screen bg-white">
+  {% comment %} Hero Section {% endcomment %}
+  <div class="px-4 md:px-8 pt-4 pb-6">
+    <div class="about-hero">
+      <img 
+        src="https://api.shatta.com/storage/525/cush17-696-02.jpg" 
+        alt="SHATTA Heritage" 
+        class="about-hero-image"
+        loading="lazy"
+      >
+      <div class="about-hero-overlay"></div>
+      <div class="about-hero-content">
+        <span class="about-hero-label">Our Heritage</span>
+        <h1 class="about-hero-title">Since 1988, We've Been<br>Weaving Egyptian Homes</h1>
+      </div>
+    </div>
+  </div>
+
+  {% comment %} Our Story {% endcomment %}
+  <section class="story-section">
+    <div class="story-grid">
+      <div>
+        <div class="story-image">
+          <img 
+            src="https://api.shatta.com/storage/3208/pouf-216_L.jpg" 
+            alt="Our Story" 
+            loading="lazy"
+          >
+        </div>
+      </div>
+      
+      <div class="story-content">
+        <h2>A Legacy of <span class="accent">Modern Luxury</span></h2>
+        
+        <p>
+          Founded in 1988, SHATTA began as a small boutique in the heart of Cairo, driven by a singular vision: to bring the unparalleled quality of true Egyptian craftsmanship to the modern home. For over three decades, we have remained true to our roots while continuously evolving our aesthetics.
+        </p>
+        
+        <p>
+          As a family-owned business spanning three generations, we believe that the soul of a home resides in its details. From the finest long-staple cotton cultivated along the Nile to the meticulous weaving techniques preserved by our artisans, every piece tells a story of dedication and excellence.
+        </p>
+        
+        <p>
+          Today, with over 25 branches across Egypt, SHATTA is more than a brand. It is a promise of enduring elegance, transforming everyday spaces into sanctuaries of comfort and refined style.
+        </p>
+        
+        <div class="founder-info">
+          <div class="founder-name">Youssef Shatta</div>
+          <div class="founder-role">Founder & Chairman</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {% comment %} Our Values {% endcomment %}
+  <section class="values-section">
+    <div class="values-header">
+      <span class="section-label">What Defines Us</span>
+      <h2>Our Core Values</h2>
+      <div class="divider"></div>
+    </div>
+    
+    <div class="values-grid">
+      <div class="value-card">
+        <div class="value-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" color="#C4A35A">
+            <circle cx="12" cy="12" r="10"></circle>
+            <path d="M12 7v5l3 2"></path>
+          </svg>
+        </div>
+        <h3 class="value-title">Craftsmanship</h3>
+        <p class="value-description">Meticulous attention to detail passed down through generations of artisans.</p>
+      </div>
+
+      <div class="value-card">
+        <div class="value-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" color="#C4A35A">
+            <line x1="12" y1="3" x2="12" y2="21"></line>
+            <path d="M12 3l-8 8h16z"></path>
+          </svg>
+        </div>
+        <h3 class="value-title">Heritage</h3>
+        <p class="value-description">Rooted deeply in the rich textile history and traditions of Egypt since 1988.</p>
+      </div>
+
+      <div class="value-card">
+        <div class="value-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" color="#C4A35A">
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+          </svg>
+        </div>
+        <h3 class="value-title">Sustainability</h3>
+        <p class="value-description">Committed to ethical sourcing and sustainable practices for a better tomorrow.</p>
+      </div>
+
+      <div class="value-card">
+        <div class="value-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" color="#C4A35A">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+            <circle cx="9" cy="7" r="4"></circle>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+          </svg>
+        </div>
+        <h3 class="value-title">Community</h3>
+        <p class="value-description">Building homes and supporting the families that weave our success story.</p>
+      </div>
+    </div>
+  </section>
+
+  {% comment %} Statistics {% endcomment %}
+  <section class="stats-section">
+    <div class="stats-container">
+      <div class="stats-header">
+        <h2>By The Numbers</h2>
+      </div>
+      
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-number">35<span style="font-size: 0.5em;">+</span></div>
+          <div class="stat-label">Years of Excellence</div>
+        </div>
+        
+        <div class="stat-card">
+          <div class="stat-number">50K<span style="font-size: 0.5em;">+</span></div>
+          <div class="stat-label">Happy Customers</div>
+        </div>
+        
+        <div class="stat-card">
+          <div class="stat-number">25</div>
+          <div class="stat-label">Branches Across Egypt</div>
+        </div>
+        
+        <div class="stat-card">
+          <div class="stat-number">2K<span style="font-size: 0.5em;">+</span></div>
+          <div class="stat-label">Premium Products</div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

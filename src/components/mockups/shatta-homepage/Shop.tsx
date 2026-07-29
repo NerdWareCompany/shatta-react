@@ -2,19 +2,21 @@ import React, { useState, useEffect } from 'react';
 import { Header } from './layout/Header';
 import { Footer } from './layout/Footer';
 import { QuickBuyModal } from './layout/QuickBuyModal';
-import { Search, Heart, User, ShoppingCart, Instagram, Facebook, ChevronRight, ChevronDown, SlidersHorizontal, Check, X } from 'lucide-react';
+import { Search, Heart, User, ShoppingCart, Instagram, Facebook, ChevronRight, ChevronLeft, ChevronDown, SlidersHorizontal, Check, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export function Shop() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<any>(null);
   
-  // Filter States
-  const [activeCategories, setActiveCategories] = useState<string[]>(['Duvets & Covers', 'Bedsheets']);
-  const [selectedColor, setSelectedColor] = useState<string | null>('#F5F5DC');
-  const [maxPrice, setMaxPrice] = useState<number>(4500);
+  // Filter & Pagination States
+  const [activeCategories, setActiveCategories] = useState<string[]>([]);
+  const [selectedColor, setSelectedColor] = useState<string | null>(null);
+  const [maxPrice, setMaxPrice] = useState<number>(10000);
   const [sortBy, setSortBy] = useState<string>('Newest');
   const [isSortOpen, setIsSortOpen] = useState(false);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const ITEMS_PER_PAGE = 12;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -23,6 +25,11 @@ export function Shop() {
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  // Reset pagination when filters change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [maxPrice, activeCategories, sortBy, selectedColor]);
 
   const fadeUp: any = {
     hidden: { opacity: 0, y: 40 },
@@ -33,23 +40,66 @@ export function Shop() {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      transition: { staggerChildren: 0.1 }
+      transition: { staggerChildren: 0.05 }
     }
   };
 
   const products = [
-    { name: 'Signature Sateen Duvet Cover', category: 'BEDDING', price: 3450, img: 'https://api.shatta.com/storage/3273/pouf-60_L.jpg', badge: 'NEW' },
-    { name: 'Linen Blend Throw Blanket', category: 'THROWS', price: 1250, originalPrice: 1800, img: 'https://api.shatta.com/storage/3282/pouf-15.jpg', badge: 'SALE' },
-    { name: 'Plush Egyptian Towel Set', category: 'BATH', price: 1800, img: 'https://api.shatta.com/storage/3235/pouf-157_L.jpg' },
-    { name: 'Ceramic Table Lamp', category: 'DECOR', price: 2100, img: 'https://api.shatta.com/storage/4448/lehaf_098.jpg' },
-    { name: 'Velvet Accent Cushion', category: 'DECOR', price: 850, img: 'https://api.shatta.com/storage/3235/pouf-157_L.jpg' },
-    { name: 'Hotel Collection Sheets', category: 'BEDDING', price: 4200, originalPrice: 5000, img: 'https://api.shatta.com/storage/3265/pouf-91.jpg', badge: 'SALE' },
-    { name: 'Marble Bathroom Set', category: 'BATH', price: 1450, img: 'https://api.shatta.com/storage/3253/pouf-108.jpg', badge: 'NEW' },
-    { name: 'Handwoven Jute Rug', category: 'RUGS', price: 5600, img: 'https://api.shatta.com/storage/3208/pouf-216_L.jpg' },
-    { name: 'Embroidered Linen Pillowcase', category: 'PILLOWS', price: 450, img: 'https://api.shatta.com/storage/292/CUSH1_480.jpg' },
-    { name: 'Silk Sleep Mask', category: 'ACCESSORIES', price: 600, originalPrice: 850, img: 'https://api.shatta.com/storage/3245/pouf-146.jpg', badge: 'SALE' },
-    { name: 'Quilted Comforter Set', category: 'BEDDING', price: 5200, img: 'https://api.shatta.com/storage/3274/pouf-60-(1).jpg' },
-    { name: 'Waffle Knit Robe', category: 'BATH', price: 1950, img: 'https://api.shatta.com/storage/3236/pouf-157.jpg', badge: 'NEW' }
+    // Page 1 Items
+    { id: 1, name: 'Signature Sateen Duvet Cover', category: 'BEDDING', price: 3450, img: 'https://api.shatta.com/storage/3273/pouf-60_L.jpg', badge: 'NEW' },
+    { id: 2, name: 'Linen Blend Throw Blanket', category: 'THROWS', price: 1250, originalPrice: 1800, img: 'https://api.shatta.com/storage/3282/pouf-15.jpg', badge: 'SALE' },
+    { id: 3, name: 'Plush Egyptian Towel Set', category: 'BATH', price: 1800, img: 'https://api.shatta.com/storage/3235/pouf-157_L.jpg' },
+    { id: 4, name: 'Ceramic Table Lamp', category: 'DECOR', price: 2100, img: 'https://api.shatta.com/storage/4448/lehaf_098.jpg' },
+    { id: 5, name: 'Velvet Accent Cushion', category: 'DECOR', price: 850, img: 'https://api.shatta.com/storage/3235/pouf-157_L.jpg' },
+    { id: 6, name: 'Hotel Collection Sheets', category: 'BEDDING', price: 4200, originalPrice: 5000, img: 'https://api.shatta.com/storage/3265/pouf-91.jpg', badge: 'SALE' },
+    { id: 7, name: 'Marble Bathroom Set', category: 'BATH', price: 1450, img: 'https://api.shatta.com/storage/3253/pouf-108.jpg', badge: 'NEW' },
+    { id: 8, name: 'Handwoven Jute Rug', category: 'RUGS', price: 5600, img: 'https://api.shatta.com/storage/3208/pouf-216_L.jpg' },
+    { id: 9, name: 'Embroidered Linen Pillowcase', category: 'PILLOWS', price: 450, img: 'https://api.shatta.com/storage/292/CUSH1_480.jpg' },
+    { id: 10, name: 'Silk Sleep Mask', category: 'ACCESSORIES', price: 600, originalPrice: 850, img: 'https://api.shatta.com/storage/3245/pouf-146.jpg', badge: 'SALE' },
+    { id: 11, name: 'Quilted Comforter Set', category: 'BEDDING', price: 5200, img: 'https://api.shatta.com/storage/3274/pouf-60-(1).jpg' },
+    { id: 12, name: 'Waffle Knit Robe', category: 'BATH', price: 1950, img: 'https://api.shatta.com/storage/3236/pouf-157.jpg', badge: 'NEW' },
+
+    // Page 2 Items
+    { id: 13, name: 'Organic Cotton Fitted Sheet', category: 'BEDDING', price: 2800, img: 'https://api.shatta.com/storage/3265/pouf-91.jpg' },
+    { id: 14, name: 'Chunky Knit Wool Throw', category: 'THROWS', price: 2150, originalPrice: 2600, img: 'https://api.shatta.com/storage/3282/pouf-15.jpg', badge: 'SALE' },
+    { id: 15, name: 'Luxury Bath Mat', category: 'BATH', price: 950, img: 'https://api.shatta.com/storage/3253/pouf-108.jpg' },
+    { id: 16, name: 'Minimalist Brass Table Clock', category: 'DECOR', price: 1750, img: 'https://api.shatta.com/storage/4448/lehaf_098.jpg', badge: 'NEW' },
+    { id: 17, name: 'Textured Geometric Pillow', category: 'PILLOWS', price: 650, img: 'https://api.shatta.com/storage/292/CUSH1_480.jpg' },
+    { id: 18, name: 'Percale Flat Sheet Set', category: 'BEDDING', price: 3100, img: 'https://api.shatta.com/storage/3273/pouf-60_L.jpg' },
+    { id: 19, name: 'Aromatic Candle Votive', category: 'ACCESSORIES', price: 480, img: 'https://api.shatta.com/storage/3245/pouf-146.jpg' },
+    { id: 20, name: 'Turkish Cotton Hand Towel', category: 'BATH', price: 720, originalPrice: 900, img: 'https://api.shatta.com/storage/3235/pouf-157_L.jpg', badge: 'SALE' },
+    { id: 21, name: 'Boho Fringe Area Rug', category: 'RUGS', price: 6800, img: 'https://api.shatta.com/storage/3208/pouf-216_L.jpg', badge: 'NEW' },
+    { id: 22, name: 'Feather Down Bed Pillow', category: 'PILLOWS', price: 1100, img: 'https://api.shatta.com/storage/292/CUSH1_480.jpg' },
+    { id: 23, name: 'Silk Pillowcase Pair', category: 'PILLOWS', price: 1900, originalPrice: 2400, img: 'https://api.shatta.com/storage/3245/pouf-146.jpg', badge: 'SALE' },
+    { id: 24, name: 'All-Season Down Alternative Comforter', category: 'BEDDING', price: 4600, img: 'https://api.shatta.com/storage/3274/pouf-60-(1).jpg' },
+
+    // Page 3 Items
+    { id: 25, name: 'Cashmere Touch Blanket', category: 'THROWS', price: 3900, img: 'https://api.shatta.com/storage/3282/pouf-15.jpg', badge: 'NEW' },
+    { id: 26, name: 'Bamboo Rayon Sheet Set', category: 'BEDDING', price: 3800, originalPrice: 4500, img: 'https://api.shatta.com/storage/3265/pouf-91.jpg', badge: 'SALE' },
+    { id: 27, name: 'Linen Kimono Bathrobe', category: 'BATH', price: 2300, img: 'https://api.shatta.com/storage/3236/pouf-157.jpg' },
+    { id: 28, name: 'Hand-Blown Glass Vase', category: 'DECOR', price: 1600, img: 'https://api.shatta.com/storage/4448/lehaf_098.jpg' },
+    { id: 29, name: 'Silk Sleep Mask & Pillowcase Kit', category: 'ACCESSORIES', price: 2200, img: 'https://api.shatta.com/storage/3245/pouf-146.jpg', badge: 'NEW' },
+    { id: 30, name: 'Ribbed Cotton Bath Towel', category: 'BATH', price: 1350, img: 'https://api.shatta.com/storage/3235/pouf-157_L.jpg' },
+    { id: 31, name: 'Vintage Washed Linen Duvet', category: 'BEDDING', price: 4900, originalPrice: 5800, img: 'https://api.shatta.com/storage/3273/pouf-60_L.jpg', badge: 'SALE' },
+    { id: 32, name: 'Wool Runner Rug', category: 'RUGS', price: 4200, img: 'https://api.shatta.com/storage/3208/pouf-216_L.jpg' },
+    { id: 33, name: 'Bouclé Decorative Cushion', category: 'DECOR', price: 920, img: 'https://api.shatta.com/storage/292/CUSH1_480.jpg', badge: 'NEW' },
+    { id: 34, name: 'Egyptian Cotton Body Pillowcase', category: 'PILLOWS', price: 780, img: 'https://api.shatta.com/storage/292/CUSH1_480.jpg' },
+    { id: 35, name: 'Velvet Bed Throw', category: 'THROWS', price: 2900, img: 'https://api.shatta.com/storage/3282/pouf-15.jpg' },
+    { id: 36, name: 'Scented Diffuser Set', category: 'ACCESSORIES', price: 1150, originalPrice: 1400, img: 'https://api.shatta.com/storage/3245/pouf-146.jpg', badge: 'SALE' },
+
+    // Page 4 Items
+    { id: 37, name: 'Stripe Percale Duvet Set', category: 'BEDDING', price: 3700, img: 'https://api.shatta.com/storage/3273/pouf-60_L.jpg' },
+    { id: 38, name: 'Fleece Weighted Blanket', category: 'THROWS', price: 3200, img: 'https://api.shatta.com/storage/3282/pouf-15.jpg', badge: 'NEW' },
+    { id: 39, name: 'Woven Storage Basket Set', category: 'DECOR', price: 1850, img: 'https://api.shatta.com/storage/4448/lehaf_098.jpg' },
+    { id: 40, name: 'Plush Spa Bath Sheet', category: 'BATH', price: 2100, originalPrice: 2500, img: 'https://api.shatta.com/storage/3235/pouf-157_L.jpg', badge: 'SALE' },
+    { id: 41, name: 'Memory Foam Contour Pillow', category: 'PILLOWS', price: 1500, img: 'https://api.shatta.com/storage/292/CUSH1_480.jpg' },
+    { id: 42, name: 'Cotton Satin Bed Sheet Set', category: 'BEDDING', price: 4100, img: 'https://api.shatta.com/storage/3265/pouf-91.jpg' },
+    { id: 43, name: 'Ceramic Soap Dispenser', category: 'BATH', price: 650, img: 'https://api.shatta.com/storage/3253/pouf-108.jpg' },
+    { id: 44, name: 'Patterned Wool Accent Rug', category: 'RUGS', price: 7200, originalPrice: 8500, img: 'https://api.shatta.com/storage/3208/pouf-216_L.jpg', badge: 'SALE' },
+    { id: 45, name: 'Linen Napkin & Runner Kit', category: 'ACCESSORIES', price: 1300, img: 'https://api.shatta.com/storage/3245/pouf-146.jpg', badge: 'NEW' },
+    { id: 46, name: 'Soft Knit Bed Canopy', category: 'BEDDING', price: 2750, img: 'https://api.shatta.com/storage/3274/pouf-60-(1).jpg' },
+    { id: 47, name: 'Satin Eyemask & Scrunchie Set', category: 'ACCESSORIES', price: 750, img: 'https://api.shatta.com/storage/3245/pouf-146.jpg' },
+    { id: 48, name: 'Down Filled Throw Cushion', category: 'PILLOWS', price: 1050, img: 'https://api.shatta.com/storage/292/CUSH1_480.jpg', badge: 'NEW' }
   ];
 
   const filteredProducts = products
@@ -59,6 +109,21 @@ export function Shop() {
       if (sortBy === 'Price: High to Low') return b.price - a.price;
       return 0; // Newest / Default
     });
+
+  const totalPages = Math.max(1, Math.ceil(filteredProducts.length / ITEMS_PER_PAGE));
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const endIndex = Math.min(startIndex + ITEMS_PER_PAGE, filteredProducts.length);
+  const paginatedProducts = filteredProducts.slice(startIndex, endIndex);
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    const gridElem = document.getElementById('product-grid-top');
+    if (gridElem) {
+      gridElem.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      window.scrollTo({ top: 350, behavior: 'smooth' });
+    }
+  };
 
   const toggleCategory = (cat: string) => {
     setActiveCategories(prev => 
@@ -181,7 +246,7 @@ export function Shop() {
         {/* Toolbar */}
         <div className="flex flex-col sm:flex-row justify-between items-center mb-8 gap-4 pb-4 border-b border-[#E8E0D4]">
           <div className="text-sm font-medium tracking-wide text-[#1A1A1A]/70">
-            <span className="text-[#1A1A1A]">{filteredProducts.length}</span> Products
+            Showing <span className="text-[#1A1A1A] font-semibold">{filteredProducts.length > 0 ? startIndex + 1 : 0}–{endIndex}</span> of <span className="text-[#1A1A1A] font-semibold">{filteredProducts.length}</span> Products
           </div>
           <div className="flex items-center gap-3 w-full sm:w-auto">
             <button className="flex-1 sm:flex-none md:hidden flex items-center justify-center gap-2 px-6 py-2.5 bg-white border border-[#E8E0D4] rounded-full text-sm font-medium hover:border-[#C4A35A] transition-colors shadow-sm">
@@ -323,21 +388,21 @@ export function Shop() {
           </div>
 
           {/* Product Grid */}
-          <div className="flex-1">
+          <div className="flex-1" id="product-grid-top">
             <motion.div 
               initial="hidden"
               animate="visible"
               variants={staggerContainer}
-              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-12"
+              className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 xl:gap-x-6 gap-y-12"
             >
-              <AnimatePresence>
-                {filteredProducts.map((product, idx) => (
+              <AnimatePresence mode="wait">
+                {paginatedProducts.map((product, idx) => (
                   <motion.div
-                    key={product.name}
+                    key={`${product.id}-${product.name}`}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, scale: 0.95 }}
-                    transition={{ duration: 0.4, delay: idx * 0.05 }}
+                    transition={{ duration: 0.3, delay: idx * 0.03 }}
                     className="group cursor-pointer flex flex-col h-full"
                     onClick={() => {window.location.href='/preview/shatta-homepage/ProductDetail'}}
                   >
@@ -390,12 +455,50 @@ export function Shop() {
               </AnimatePresence>
             </motion.div>
 
-            {/* Pagination / Load More */}
-            <div className="mt-16 flex justify-center">
-              <button className="px-8 py-3.5 bg-white border border-[#E8E0D4] rounded-full text-sm font-medium text-[#1A1A1A] hover:border-[#C4A35A] hover:text-[#C4A35A] shadow-sm hover:shadow-md transition-all duration-300">
-                LOAD MORE PRODUCTS
-              </button>
-            </div>
+            {/* Pagination Controls */}
+            {totalPages > 1 && (
+              <div className="mt-16 flex flex-col sm:flex-row items-center justify-between gap-6 pt-8 border-t border-[#E8E0D4]">
+                <div className="text-xs text-[#1A1A1A]/60 font-medium">
+                  Page <span className="font-bold text-[#1A1A1A]">{currentPage}</span> of <span className="font-bold text-[#1A1A1A]">{totalPages}</span>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => handlePageChange(currentPage - 1)}
+                    disabled={currentPage === 1}
+                    className="flex items-center gap-1.5 px-4 py-2.5 bg-white border border-[#E8E0D4] rounded-full text-xs font-medium text-[#1A1A1A] hover:border-[#C4A35A] hover:text-[#C4A35A] disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:border-[#E8E0D4] disabled:hover:text-[#1A1A1A] transition-all shadow-sm"
+                  >
+                    <ChevronLeft className="w-4 h-4" />
+                    Previous
+                  </button>
+
+                  <div className="flex items-center gap-1.5 mx-2">
+                    {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                      <button
+                        key={page}
+                        onClick={() => handlePageChange(page)}
+                        className={`w-9 h-9 rounded-full text-xs font-semibold transition-all ${
+                          currentPage === page
+                            ? 'bg-[#1A1A1A] text-white shadow-md scale-105'
+                            : 'bg-white text-[#1A1A1A] border border-[#E8E0D4] hover:border-[#C4A35A] hover:text-[#C4A35A]'
+                        }`}
+                      >
+                        {page}
+                      </button>
+                    ))}
+                  </div>
+
+                  <button
+                    onClick={() => handlePageChange(currentPage + 1)}
+                    disabled={currentPage === totalPages}
+                    className="flex items-center gap-1.5 px-4 py-2.5 bg-white border border-[#E8E0D4] rounded-full text-xs font-medium text-[#1A1A1A] hover:border-[#C4A35A] hover:text-[#C4A35A] disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:border-[#E8E0D4] disabled:hover:text-[#1A1A1A] transition-all shadow-sm"
+                  >
+                    Next
+                    <ChevronRight className="w-4 h-4" />
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
 
         </div>

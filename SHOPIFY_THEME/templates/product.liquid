@@ -1,0 +1,955 @@
+{% comment %}
+  SHATTA Product Template
+  Handles product display, variants, gallery, recommendations
+{% endcomment %}
+
+<style>
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    font-size: 0.75rem;
+    color: rgba(26, 26, 26, 0.5);
+    font-weight: 300;
+    margin-bottom: 3rem;
+    letter-spacing: 0.05em;
+  }
+  
+  .breadcrumb a {
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  
+  .breadcrumb a:hover {
+    color: #1A1A1A;
+  }
+  
+  .breadcrumb-sep {
+    margin: 0 0.75rem;
+  }
+  
+  .breadcrumb-current {
+    color: #C4A35A;
+    font-weight: 500;
+  }
+  
+  .product-section {
+    padding: 2rem;
+  }
+  
+  .product-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    max-width: 90rem;
+  }
+  
+  /* Gallery */
+  .gallery {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .main-image {
+    aspect-ratio: 4/5;
+    background-color: #F9F9F9;
+    border-radius: 1rem;
+    overflow: hidden;
+    position: relative;
+  }
+  
+  .main-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.7s ease-out;
+  }
+  
+  .gallery:hover .main-image img {
+    transform: scale(1.05);
+  }
+  
+  .thumbnails {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.75rem;
+  }
+  
+  .thumbnail {
+    aspect-ratio: 1;
+    border-radius: 0.75rem;
+    overflow: hidden;
+    cursor: pointer;
+    border: 2px solid transparent;
+    background-color: #F9F9F9;
+    transition: all 0.3s;
+  }
+  
+  .thumbnail img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s;
+  }
+  
+  .thumbnail:hover img {
+    transform: scale(1.05);
+  }
+  
+  .thumbnail.active {
+    border-color: #C4A35A;
+  }
+  
+  /* Product Info */
+  .product-info {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .product-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    line-height: 1.2;
+  }
+  
+  .product-rating {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    font-size: 0.875rem;
+    color: rgba(26, 26, 26, 0.7);
+  }
+  
+  .stars {
+    display: flex;
+    gap: 0.25rem;
+  }
+  
+  .star {
+    color: #C4A35A;
+    font-size: 0.75rem;
+  }
+  
+  .product-price {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid #E8E0D4;
+  }
+  
+  .price-original {
+    text-decoration: line-through;
+    color: rgba(26, 26, 26, 0.5);
+    font-size: 1rem;
+    margin-right: 1rem;
+  }
+  
+  /* Variant Selector */
+  .variant-group {
+    margin-bottom: 2rem;
+  }
+  
+  .variant-label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #1A1A1A;
+    margin-bottom: 1rem;
+    display: block;
+  }
+  
+  .color-swatches {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+  
+  .color-swatch {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border: 2px solid #E8E0D4;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s;
+    position: relative;
+  }
+  
+  .color-swatch:hover {
+    border-color: #C4A35A;
+    transform: scale(1.1);
+  }
+  
+  .color-swatch.active {
+    border-color: #C4A35A;
+    box-shadow: 0 0 0 2px rgba(196, 163, 90, 0.2);
+  }
+  
+  .swatch-color {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .size-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+    gap: 0.75rem;
+  }
+  
+  .size-btn {
+    padding: 0.75rem 1rem;
+    border: 1px solid #E8E0D4;
+    background-color: white;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: all 0.3s;
+  }
+  
+  .size-btn:hover {
+    border-color: #C4A35A;
+  }
+  
+  .size-btn.active {
+    background-color: #1A1A1A;
+    color: white;
+    border-color: #1A1A1A;
+  }
+  
+  /* Quantity & Add to Cart */
+  .purchase-section {
+    display: flex;
+    gap: 1rem;
+    margin: 2rem 0;
+  }
+  
+  .quantity-adjuster {
+    display: flex;
+    align-items: center;
+    background-color: #F9F9F9;
+    border: 1px solid #E8E0D4;
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+    gap: 0.5rem;
+  }
+  
+  .qty-btn {
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: rgba(26, 26, 26, 0.7);
+    font-size: 1rem;
+    transition: color 0.3s;
+  }
+  
+  .qty-btn:hover {
+    color: #1A1A1A;
+  }
+  
+  .qty-input {
+    width: 3rem;
+    text-align: center;
+    border: none;
+    background: none;
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+  
+  .qty-input:focus {
+    outline: none;
+  }
+  
+  .atc-btn {
+    flex: 1;
+    padding: 1rem 2rem;
+    background-color: #1A1A1A;
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+  
+  .atc-btn:hover {
+    background-color: #C4A35A;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  }
+  
+  .wishlist-btn {
+    width: 3rem;
+    height: 3rem;
+    border: 1px solid #E8E0D4;
+    background-color: white;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s;
+  }
+  
+  .wishlist-btn:hover {
+    border-color: #C4A35A;
+    color: #C4A35A;
+  }
+  
+  /* Description Tabs */
+  .description-tabs {
+    margin-top: 3rem;
+    border-top: 1px solid #E8E0D4;
+    padding-top: 2rem;
+  }
+  
+  .tabs-list {
+    display: flex;
+    gap: 2rem;
+    border-bottom: 1px solid #E8E0D4;
+    margin-bottom: 2rem;
+  }
+  
+  .tab-btn {
+    padding: 1rem 0;
+    background: none;
+    border: none;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: rgba(26, 26, 26, 0.6);
+    cursor: pointer;
+    position: relative;
+    transition: color 0.3s;
+  }
+  
+  .tab-btn:hover,
+  .tab-btn.active {
+    color: #1A1A1A;
+  }
+  
+  .tab-btn.active::after {
+    content: '';
+    position: absolute;
+    bottom: -1rem;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: #C4A35A;
+  }
+  
+  .tab-content {
+    display: none;
+  }
+  
+  .tab-content.active {
+    display: block;
+  }
+  
+  /* Recommendations */
+  .recommendations-section {
+    padding: 4rem 2rem;
+    background-color: #F9F9F9;
+  }
+  
+  @media (max-width: 1024px) {
+    .product-grid {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+  }
+  
+  @media (max-width: 767px) {
+    .product-title {
+      font-size: 1.5rem;
+    }
+    
+    .thumbnails {
+      grid-template-columns: repeat(3, 1fr);
+    }
+    
+    .purchase-section {
+      flex-direction: column;
+    }
+    
+    .size-options {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+</style>
+
+<div class="product-section">
+  <div class="max-container">
+    
+    <!-- Breadcrumb -->
+    <nav class="breadcrumb">
+      <a href="/">Home</a>
+      <span class="breadcrumb-sep">/</span>
+      <a href="/collections/{{ product.collections[0].handle }}">{{ product.collections[0].title }}</a>
+      <span class="breadcrumb-sep">/</span>
+      <span class="breadcrumb-current">{{ product.title }}</span>
+    </nav>
+
+    <!-- Product Grid -->
+    <div class="product-grid">
+      
+      <!-- Left: Gallery -->
+      <div class="gallery">
+        <div class="main-image">
+          <img 
+            id="main-image" 
+            src="{{ product.featured_image }}" 
+            alt="{{ product.title }}"
+            loading="lazy"
+          >
+        </div>
+        <div class="thumbnails">
+          {% for image in product.images %}
+            <button 
+              class="thumbnail {% if forloop.first %}active{% endif %}"
+              onclick="changeImage(this.querySelector('img').src)"
+              type="button"
+            >
+              <img 
+                src="{{ image | img_url: '200x200' }}" 
+                alt="Product view {{ forloop.index }}"
+                loading="lazy"
+              >
+            </button>
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- Right: Product Info -->
+      <div class="product-info">
+        
+        <h1 class="product-title">{{ product.title }}</h1>
+        
+        <!-- Rating -->
+        <div class="product-rating">
+          <div class="stars">
+            <span class="star">★</span>
+            <span class="star">★</span>
+            <span class="star">★</span>
+            <span class="star">★</span>
+            <span class="star">★</span>
+          </div>
+          <span>(125 reviews)</span>
+        </div>
+        
+        <!-- Price -->
+        <div class="product-price">
+          {% if product.compare_at_price %}
+            <span class="price-original">{{ product.compare_at_price | money }}</span>
+          {% endif %}
+          <span>{{ product.price | money }}</span>
+        </div>
+        
+        <!-- Colors -->
+        {% assign color_option = product.options | where: "name", "Color" | first %}
+        {% if color_option %}
+          <div class="variant-group">
+            <label class="variant-label">Color: <span id="selected-color">Beige</span></label>
+            <div class="color-swatches">
+              {% for value in color_option.values %}
+                <button 
+                  class="color-swatch {% if forloop.first %}active{% endif %}"
+                  onclick="selectColor(this)"
+                  style="background-color: #DED5C8;"
+                  title="{{ value }}"
+                  type="button"
+                >
+                  <div class="swatch-color" style="background-color: #DED5C8;"></div>
+                </button>
+              {% endfor %}
+            </div>
+          </div>
+        {% endif %}
+        
+        <!-- Sizes -->
+        {% assign size_option = product.options | where: "name", "Size" | first %}
+        {% if size_option %}
+          <div class="variant-group">
+            <label class="variant-label">Size: <span id="selected-size">Queen</span></label>
+            <div class="size-options">
+              {% for value in size_option.values %}
+                <button 
+                  class="size-btn {% if forloop.first %}active{% endif %}"
+                  onclick="selectSize(this)"
+                  type="button"
+                >
+                  {{ value }}
+                </button>
+              {% endfor %}
+            </div>
+          </div>
+        {% endif %}
+        
+        <!-- Purchase -->
+        <div class="purchase-section">
+          <div class="quantity-adjuster">
+            <button class="qty-btn" onclick="decrementQty()" type="button">−</button>
+            <input type="number" id="quantity" class="qty-input" value="1" min="1">
+            <button class="qty-btn" onclick="incrementQty()" type="button">+</button>
+          </div>
+          <button 
+            class="atc-btn"
+            onclick="addToCartProduct()"
+            type="button"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="9" cy="21" r="1"></circle>
+              <circle cx="20" cy="21" r="1"></circle>
+              <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+            </svg>
+            ADD TO CART
+          </button>
+          <button class="wishlist-btn" type="button" onclick="addToWishlist()">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+            </svg>
+          </button>
+        </div>
+        
+        <!-- Trust Badges -->
+        <div style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid #E8E0D4; display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; font-size: 0.875rem; color: rgba(26, 26, 26, 0.7);">
+          <div style="display: flex; align-items: center; gap: 0.75rem;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+            </svg>
+            <span>Expert Support</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 0.75rem;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+            </svg>
+            <span>Secure Checkout</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Description Tabs -->
+    <div class="description-tabs">
+      <div class="tabs-list" role="tablist" aria-label="Product details tabs">
+        <button class="tab-btn active" type="button" role="tab" aria-controls="description" aria-selected="true" onclick="switchTab(event, 'description')">Description</button>
+        <button class="tab-btn" type="button" role="tab" aria-controls="specs" aria-selected="false" onclick="switchTab(event, 'specs')">Specifications</button>
+        <button class="tab-btn" type="button" role="tab" aria-controls="shipping" aria-selected="false" onclick="switchTab(event, 'shipping')">Shipping & Returns</button>
+      </div>
+      
+      <div id="description" class="tab-content active" role="tabpanel">
+        {{ product.description }}
+      </div>
+      <div id="specs" class="tab-content" role="tabpanel">
+        <p>{{ product.metafields.custom.specifications }}</p>
+      </div>
+      <div id="shipping" class="tab-content" role="tabpanel">
+        <p>Free delivery on orders over EGP 3,000. Standard delivery takes 3-5 business days. 30-day returns on unused items in original packaging.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Frequently Bought Together Section -->
+<style>
+  .fbt-section {
+    padding: 4rem 2rem;
+    background-color: #FAFAFA;
+    border-top: 1px solid #E8E0D4;
+  }
+
+  .fbt-container {
+    max-width: 80rem;
+    margin: 0 auto;
+  }
+
+  .fbt-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1A1A1A;
+    margin-bottom: 2rem;
+  }
+
+  .fbt-products {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  .fbt-product {
+    background-color: white;
+    border: 2px solid #E8E0D4;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    text-align: center;
+    transition: all 0.3s;
+  }
+
+  .fbt-product:hover {
+    border-color: #C4A35A;
+  }
+
+  .fbt-product.selected {
+    border-color: #C4A35A;
+    background-color: rgba(196, 163, 90, 0.02);
+  }
+
+  .fbt-checkbox {
+    width: 20px;
+    height: 20px;
+    margin-bottom: 1rem;
+    cursor: pointer;
+    accent-color: #C4A35A;
+  }
+
+  .fbt-check-wrap {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(26, 26, 26, 0.7);
+  }
+
+  .fbt-image {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    border-radius: 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .fbt-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #1A1A1A;
+    margin-bottom: 0.5rem;
+  }
+
+  .fbt-price {
+    color: #C4A35A;
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+
+  .fbt-summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background-color: #F9F9F9;
+    border-radius: 0.75rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .fbt-total {
+    font-weight: 600;
+    color: #1A1A1A;
+  }
+
+  .fbt-button {
+    width: 100%;
+    padding: 1rem;
+    background-color: #C4A35A;
+    color: white;
+    border: none;
+    border-radius: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+
+  .fbt-button:hover {
+    background-color: #D4B97A;
+  }
+
+  .fbt-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+</style>
+
+<section class="fbt-section" aria-label="Frequently Bought Together">
+  <div class="fbt-container">
+    <h2 class="fbt-title">Frequently Bought Together</h2>
+    
+    <div class="fbt-products" id="fbt-products">
+      <!-- Populated by JavaScript -->
+      <div class="fbt-product" data-bundle-item>
+        <div class="fbt-check-wrap">
+          <input 
+            type="checkbox" 
+            id="fbt-item-1"
+            class="fbt-checkbox" 
+            aria-label="Select Plush Egyptian Towel Set"
+            onchange="updateFBTTotal()"
+          >
+          <label for="fbt-item-1">Select Item</label>
+        </div>
+        <img src="https://api.shatta.com/storage/4476/lehaf_140.webp" alt="Plush Egyptian Towel Set" class="fbt-image">
+        <h3 class="fbt-name">Plush Egyptian Towel Set</h3>
+        <div class="fbt-price">EGP 1,800</div>
+      </div>
+
+      <div class="fbt-product" data-bundle-item>
+        <div class="fbt-check-wrap">
+          <input 
+            type="checkbox" 
+            id="fbt-item-2"
+            class="fbt-checkbox" 
+            aria-label="Select Velvet Accent Cushion"
+            onchange="updateFBTTotal()"
+          >
+          <label for="fbt-item-2">Select Item</label>
+        </div>
+        <img src="https://api.shatta.com/storage/3277/pouf-57_L.jpg" alt="Velvet Accent Cushion" class="fbt-image">
+        <h3 class="fbt-name">Velvet Accent Cushion</h3>
+        <div class="fbt-price">EGP 850</div>
+      </div>
+
+      <div class="fbt-product" data-bundle-item>
+        <div class="fbt-check-wrap">
+          <input 
+            type="checkbox" 
+            id="fbt-item-3"
+            class="fbt-checkbox" 
+            aria-label="Select Linen Blend Throw Blanket"
+            onchange="updateFBTTotal()"
+          >
+          <label for="fbt-item-3">Select Item</label>
+        </div>
+        <img src="https://api.shatta.com/storage/3278/pouf-57.jpg" alt="Linen Blend Throw Blanket" class="fbt-image">
+        <h3 class="fbt-name">Linen Blend Throw Blanket</h3>
+        <div class="fbt-price">EGP 1,250</div>
+      </div>
+    </div>
+
+    <div class="fbt-summary">
+      <span class="fbt-total">Total: <span id="fbt-total" aria-live="polite">EGP 0</span></span>
+      <button 
+        id="fbt-add-btn"
+        class="fbt-button" 
+        onclick="addBundleToCart()"
+        disabled
+        aria-label="Add selected bundle items to cart"
+      >
+        ADD SELECTED TO CART
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- Recently Viewed -->
+<section class="recommendations-section" aria-label="Recently Viewed Products">
+  <div class="max-container">
+    <h2 class="section-title">Recently Viewed</h2>
+    <div class="products-grid" id="recently-viewed">
+      <!-- Populated by JS -->
+    </div>
+  </div>
+</section>
+
+<script>
+  const productId = {{ product.id }};
+  
+  function changeImage(src) {
+    document.getElementById('main-image').src = src;
+    document.querySelectorAll('.thumbnail').forEach(t => t.classList.remove('active'));
+    event.target.closest('.thumbnail').classList.add('active');
+  }
+  
+  function selectColor(button) {
+    document.querySelectorAll('.color-swatch').forEach(b => b.classList.remove('active'));
+    button.classList.add('active');
+    document.getElementById('selected-color').textContent = button.getAttribute('title');
+  }
+  
+  function selectSize(button) {
+    document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+    button.classList.add('active');
+    document.getElementById('selected-size').textContent = button.textContent;
+  }
+  
+  function incrementQty() {
+    const input = document.getElementById('quantity');
+    input.value = parseInt(input.value) + 1;
+  }
+  
+  function decrementQty() {
+    const input = document.getElementById('quantity');
+    if (parseInt(input.value) > 1) {
+      input.value = parseInt(input.value) - 1;
+    }
+  }
+  
+  function addToCartProduct() {
+    const quantity = parseInt(document.getElementById('quantity').value);
+    addToCart({{ product.id }}, {{ product.variants[0].id }}, quantity);
+  }
+  
+  function addToWishlist() {
+    saveRecentlyViewed({
+      id: productId,
+      title: '{{ product.title }}',
+      price: '{{ product.price | money }}',
+      image: '{{ product.featured_image }}'
+    });
+    showNotification('Added to wishlist!', 'success');
+  }
+  
+  function switchTab(e, tabName) {
+    e.target.parentNode.querySelectorAll('.tab-btn').forEach(b => {
+      b.classList.remove('active');
+      b.setAttribute('aria-selected', 'false');
+    });
+    e.target.classList.add('active');
+    e.target.setAttribute('aria-selected', 'true');
+    
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    document.getElementById(tabName).classList.add('active');
+  }
+  
+  // Save to recently viewed
+  saveRecentlyViewed({
+    id: productId,
+    title: '{{ product.title }}',
+    price: '{{ product.price | money }}',
+    image: '{{ product.featured_image }}'
+  });
+
+  // FBT Bundle Functionality
+  function updateFBTTotal() {
+    const allCheckboxes = document.querySelectorAll('.fbt-checkbox');
+    const checkboxes = document.querySelectorAll('.fbt-checkbox:checked');
+    const addBtn = document.getElementById('fbt-add-btn');
+    let total = 0;
+
+    allCheckboxes.forEach(checkbox => {
+      const card = checkbox.closest('.fbt-product');
+      if (card) {
+        card.classList.toggle('selected', checkbox.checked);
+      }
+    });
+    
+    checkboxes.forEach(checkbox => {
+      const card = checkbox.closest('.fbt-product');
+      const priceText = card ? card.querySelector('.fbt-price').textContent : '0';
+      const price = parseInt(priceText.replace(/\D/g, ''));
+      total += price;
+    });
+
+    if (addBtn) {
+      addBtn.disabled = checkboxes.length === 0;
+    }
+    
+    document.getElementById('fbt-total').textContent = `EGP ${total.toLocaleString()}`;
+  }
+
+  function addBundleToCart() {
+    const selectedProducts = [];
+    document.querySelectorAll('.fbt-checkbox:checked').forEach(checkbox => {
+      const productCard = checkbox.closest('.fbt-product');
+      const name = productCard.querySelector('.fbt-name').textContent;
+      const price = productCard.querySelector('.fbt-price').textContent;
+      selectedProducts.push({ name, price });
+    });
+
+    if (selectedProducts.length === 0) {
+      showNotification('Please select at least one item', 'error');
+      return;
+    }
+
+    showNotification(`Added ${selectedProducts.length} item(s) to cart!`, 'success');
+    
+    // Reset checkboxes
+    document.querySelectorAll('.fbt-checkbox').forEach(cb => cb.checked = false);
+    updateFBTTotal();
+  }
+
+  updateFBTTotal();
+
+  // Accessibility Enhancements
+  (function() {
+    'use strict';
+
+    // Add ARIA labels to interactive elements
+    const colorSwatches = document.querySelectorAll('.color-swatch');
+    colorSwatches.forEach((swatch, index) => {
+      if (!swatch.hasAttribute('aria-label')) {
+        swatch.setAttribute('aria-label', `Color option ${index + 1}`);
+        swatch.setAttribute('role', 'button');
+        swatch.setAttribute('tabindex', '0');
+      }
+    });
+
+    const sizeButtons = document.querySelectorAll('.size-btn');
+    sizeButtons.forEach((btn, index) => {
+      if (!btn.hasAttribute('aria-label')) {
+        btn.setAttribute('aria-label', `Size ${btn.textContent}`);
+      }
+    });
+
+    const quantityButtons = document.querySelectorAll('.qty-btn');
+    quantityButtons.forEach((btn, index) => {
+      if (!btn.hasAttribute('aria-label')) {
+        btn.setAttribute('aria-label', btn.textContent.includes('−') ? 'Decrease quantity' : 'Increase quantity');
+      }
+    });
+
+    // Keyboard support for color/size selection
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        const target = document.activeElement;
+        if (target.classList.contains('color-swatch')) {
+          target.click();
+        }
+        if (target.classList.contains('size-btn')) {
+          target.click();
+        }
+      }
+    });
+
+    // Add focus indicators
+    const style = document.createElement('style');
+    style.textContent = `
+      button:focus-visible,
+      input:focus-visible,
+      select:focus-visible,
+      [role="button"]:focus-visible {
+        outline: 2px solid #C4A35A;
+        outline-offset: 2px;
+      }
+    `;
+    document.head.appendChild(style);
+
+    // Ensure color contrast meets WCAG standards
+    const labels = document.querySelectorAll('label');
+    labels.forEach(label => {
+      label.style.color = 'rgba(26, 26, 26, 0.7)';
+    });
+  })();
+
+</script>

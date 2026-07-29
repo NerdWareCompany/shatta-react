@@ -6,6 +6,7 @@ export const modules: ModuleMap = {
   "./components/mockups/shatta-homepage/Auth.tsx": () => import("../components/mockups/shatta-homepage/Auth.tsx"),
   "./components/mockups/shatta-homepage/Blog.tsx": () => import("../components/mockups/shatta-homepage/Blog.tsx"),
   "./components/mockups/shatta-homepage/BlogPost.tsx": () => import("../components/mockups/shatta-homepage/BlogPost.tsx"),
+  "./components/mockups/shatta-homepage/Branches.tsx": () => import("../components/mockups/shatta-homepage/Branches.tsx"),
   "./components/mockups/shatta-homepage/Cart.tsx": () => import("../components/mockups/shatta-homepage/Cart.tsx"),
   "./components/mockups/shatta-homepage/Checkout.tsx": () => import("../components/mockups/shatta-homepage/Checkout.tsx"),
   "./components/mockups/shatta-homepage/Contact.tsx": () => import("../components/mockups/shatta-homepage/Contact.tsx"),

@@ -1,0 +1,186 @@
+{
+  "name": "SHATTA - Luxury Home & Textiles",
+  "description": "A pixel-perfect, premium e-commerce theme for luxury home decor and Egyptian textiles.",
+  "version": "1.0.0",
+  "api_version": "2024-10",
+  "author": "SHATTA Luxury Homes",
+  "documentation_url": "https://shatta.example.com/docs",
+  "settings_schema": [
+    {
+      "name": "theme_info",
+      "type": "text",
+      "content": "SHATTA Luxury Theme v1.0 | Egyptian Craftsmanship Since 1988"
+    },
+    {
+      "name": "Color Scheme",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Light Mode Colors"
+        },
+        {
+          "id": "color_primary",
+          "type": "color",
+          "label": "Primary Color",
+          "default": "#1A1A1A"
+        },
+        {
+          "id": "color_accent",
+          "type": "color",
+          "label": "Accent Color",
+          "default": "#C4A35A"
+        },
+        {
+          "id": "color_background",
+          "type": "color",
+          "label": "Background",
+          "default": "#FFFFFF"
+        },
+        {
+          "id": "color_border",
+          "type": "color",
+          "label": "Border Color",
+          "default": "#E8E0D4"
+        },
+        {
+          "id": "color_muted",
+          "type": "color",
+          "label": "Muted Text",
+          "default": "#F5F5F5"
+        },
+        {
+          "type": "header",
+          "content": "Dark Mode Colors"
+        },
+        {
+          "id": "color_dark_primary",
+          "type": "color",
+          "label": "Dark Primary",
+          "default": "#FFFFFF"
+        },
+        {
+          "id": "color_dark_background",
+          "type": "color",
+          "label": "Dark Background",
+          "default": "#1A1A1A"
+        }
+      ]
+    },
+    {
+      "name": "Typography",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Font Settings"
+        },
+        {
+          "id": "font_serif",
+          "type": "font_picker",
+          "label": "Serif Font",
+          "default": "georgia_georgia"
+        },
+        {
+          "id": "font_sans",
+          "type": "font_picker",
+          "label": "Sans-Serif Font",
+          "default": "helvetica_helvetica"
+        }
+      ]
+    },
+    {
+      "name": "Header",
+      "settings": [
+        {
+          "id": "announcement_text",
+          "type": "text",
+          "label": "Announcement Bar Text",
+          "default": "Free Shipping on Orders Over EGP 3,000 · 25+ Branches Across Egypt"
+        },
+        {
+          "id": "show_search",
+          "type": "checkbox",
+          "label": "Show Search",
+          "default": true
+        },
+        {
+          "id": "show_cart_count",
+          "type": "checkbox",
+          "label": "Show Cart Item Count",
+          "default": true
+        }
+      ]
+    },
+    {
+      "name": "Footer",
+      "settings": [
+        {
+          "id": "footer_about",
+          "type": "richtext",
+          "label": "About Text",
+          "default": "<p>Egyptian craftsmanship meeting modern luxury. Over three decades of curating the perfect home experience.</p>"
+        },
+        {
+          "id": "newsletter_placeholder",
+          "type": "text",
+          "label": "Newsletter Placeholder",
+          "default": "Enter your email address"
+        },
+        {
+          "id": "show_social",
+          "type": "checkbox",
+          "label": "Show Social Links",
+          "default": true
+        }
+      ]
+    },
+    {
+      "name": "Homepage",
+      "settings": [
+        {
+          "id": "homepage_hero_image",
+          "type": "image_picker",
+          "label": "Hero Section Image"
+        },
+        {
+          "id": "homepage_hero_title",
+          "type": "text",
+          "label": "Hero Title",
+          "default": "Elevate Your Living Space"
+        },
+        {
+          "id": "homepage_hero_subtitle",
+          "type": "text",
+          "label": "Hero Subtitle",
+          "default": "Discover handcrafted luxuries curated for modern Egyptian homes"
+        }
+      ]
+    },
+    {
+      "name": "Product Grid",
+      "settings": [
+        {
+          "id": "products_per_row",
+          "type": "select",
+          "label": "Products Per Row",
+          "options": [
+            { "label": "2", "value": "2" },
+            { "label": "3", "value": "3" },
+            { "label": "4", "value": "4" }
+          ],
+          "default": "4"
+        },
+        {
+          "id": "products_per_page",
+          "type": "select",
+          "label": "Products Per Page",
+          "options": [
+            { "label": "12", "value": "12" },
+            { "label": "24", "value": "24" },
+            { "label": "36", "value": "36" }
+          ],
+          "default": "12"
+        }
+      ]
+    }
+  ]
+}
